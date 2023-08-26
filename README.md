@@ -1,13 +1,13 @@
 # Date Range Picker Angular Library
 
-The **date-range-picker** library provides a customizable date range picker component for Angular applications.
+The **ngx-angular-date-range-picker** library provides a customizable date range picker component for Angular applications.
 
 ## Installation
 
 To use this library in your Angular project, you need to install it using npm:
 
 ```bash
-npm install date-range-picker
+npm install ngx-angular-date-range-picker
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm install date-range-picker
 ```typescript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { DateRangePickerModule } from 'date-range-picker';
+import { DateRangePickerModule } from 'ngx-angular-date-range-picker';
 
 @NgModule({
   declarations: [/* ... */],
@@ -30,7 +30,7 @@ import { DateRangePickerModule } from 'date-range-picker';
 export class AppModule {}
 ```
 
-2. In your component template, use the `date-range-picker` component:
+2. In your component template, use the `ngx-angular-date-range-picker` component:
 
 ```html
 <date-range-picker [row]="row" [control]="date"></date-range-picker>
@@ -41,7 +41,7 @@ export class AppModule {}
 ```typescript
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DataInterface } from 'date-range-picker';
+import { DataInterface } from 'ngx-angular-date-range-picker';
 
 @Component({
   selector: 'app-root',

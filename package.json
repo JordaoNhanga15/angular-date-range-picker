@@ -1,5 +1,5 @@
 {
-  "name": "date-range-picker",
+  "name": "ngx-angular-date-range-picker",
   "version": "0.0.1",
   "keywords": ["angular", "date", "range", "picker"],
   "description": "Angular Date Range Picker",

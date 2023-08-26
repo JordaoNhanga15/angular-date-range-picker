@@ -27,5 +27,5 @@ export function HttpLoaderFactory(http: HttpClient) {
   exports: [DateRangeComponent],
   providers: [{ provide: LOCALE_ID, useValue: 'en-US' }],
 })
-export class LibModule {}
+export class DateRangePickerModule {}
 export { DataInterface };
