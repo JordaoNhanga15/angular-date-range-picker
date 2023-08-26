@@ -77,13 +77,8 @@ Contributions are welcome! Feel free to open issues or pull requests on the [Git
 
 ## Author
 
-- Jordão de Oliveira
 - LinkedIn: [Jordão de Oliveira](https://www.linkedin.com/in/jordao-de-oliveira/)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Please replace `'JordaoNhanga15'` in the GitHub repository link with your actual GitHub username and make any necessary adjustments based on your library's specifics and your project's requirements. Your LinkedIn profile link is now included in the "Author" section as well.
