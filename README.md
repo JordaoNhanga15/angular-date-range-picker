@@ -66,7 +66,7 @@ export class AppComponent {
 
 ## Features
 
-- Supports various date range types (daily, monthly, yearly).
+- Supports various date range types (day, month, year).
 - Allows formatting based on different regions.
 - Provides internationalization (i18n) support.
 - Customizable CSS styling.
