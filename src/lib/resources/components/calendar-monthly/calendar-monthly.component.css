@@ -1,0 +1,24 @@
+.calendar-month{
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 390px;
+  position: relative !important;
+}
+
+.year-class{
+  margin:0 0 5px 0 !important;
+}
+
+.month-container{
+  padding: 5 !important;
+}
+
+.month-list{
+  padding: 0 !important;
+  margin-bottom: 5px !important;
+
+  gap: 5 !important;
+}

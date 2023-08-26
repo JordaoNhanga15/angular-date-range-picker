@@ -1,0 +1,31 @@
+<div class="month-containers show">
+  <div class="year-picker month-picker calendar-header year-class" id="year-picker" (click)="eventYearClick()">
+    {{f.year.value}}</div>
+  <div class="month-list">
+    <div class="month-element" *ngFor="let item of monthNames; let i=index" [ngClass]="handleMonthClass(i)"
+      (click)="eventMonthClick(i)">{{item}}</div>
+  </div>
+</div>
+
+<div class="year-container">
+  <div class="year-pickers calendar-header">
+    <span class="year-change" id="prev-pagination" (click)="handleCalendarYearBuildForm('prevPagination')">
+      <div>
+        < </div>
+    </span>
+    <span id="year-array">2021 - 2028</span>
+    <span class="year-change" id="next-pagination" (click)="handleCalendarYearBuildForm('nextPagination')">
+      <div>></div>
+    </span>
+  </div>
+  <div class="year-list"></div>
+</div>
+
+<div class="calendar-footer" *ngIf="row.containDarkMode">
+  <div class="toggle" (click)="handleDarkMode()">
+    <span>{{messages.dark}}</span>
+    <div class="dark-mode-switch">
+      <div class="dark-mode-switch-ident"></div>
+    </div>
+  </div>
+</div>

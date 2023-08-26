@@ -1,0 +1,22 @@
+<div class="year-container show">
+  <div class="year-pickers calendar-header">
+    <span class="year-change" id="prev-pagination" (click)="handleCalendarYearBuildForm('prevPagination')">
+      <div>
+        < </div>
+    </span>
+    <span id="year-array">2021 - 2028</span>
+    <span class="year-change" id="next-pagination" (click)="handleCalendarYearBuildForm('nextPagination')">
+      <div>></div>
+    </span>
+  </div>
+  <div class="year-list"></div>
+</div>
+
+<div class="calendar-footer" *ngIf="row.containDarkMode">
+  <div class="toggle" (click)="handleDarkMode()">
+    <span>{{messages.dark}}</span>
+    <div class="dark-mode-switch">
+      <div class="dark-mode-switch-ident"></div>
+    </div>
+  </div>
+</div>
