@@ -7,6 +7,7 @@ import { CalendarDailyComponent } from './resources/components/calendar-daily/ca
 import { CalendarMonthlyComponent } from './resources/components/calendar-monthly/calendar-monthly.component';
 import { CalendarYearlyComponent } from './resources/components/calendar-yearly/calendar-yearly.component';
 import { DataInterface } from './core/interfaces/DataInterface';
+import { CommonModule } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
 }
@@ -19,10 +20,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     CalendarYearlyComponent,
   ],
   imports: [
-    BrowserModule,
+    // BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   exports: [DateRangeComponent],
   providers: [{ provide: LOCALE_ID, useValue: 'en-US' }],

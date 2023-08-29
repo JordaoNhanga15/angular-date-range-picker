@@ -1,7 +1,12 @@
 {
   "name": "ngx-angular-date-range-picker",
-  "version": "0.0.1",
-  "keywords": ["angular", "date", "range", "picker"],
+  "version": "0.0.7",
+  "keywords": [
+    "angular",
+    "date",
+    "range",
+    "picker"
+  ],
   "description": "Angular Date Range Picker",
   "author": {
     "name": "Jordão Nhanga de Oliveira",
@@ -13,11 +18,10 @@
     "url": "https://github.com/JordaoNhanga15/angular-date-range-picker"
   },
   "peerDependencies": {
-    "@angular/common": "^12.1.0",
-    "@angular/core": "^12.1.0"
+    "@angular/common": "^10.2.0",
+    "@angular/core": "^10.2.5"
   },
   "dependencies": {
-    "font-awesome": "^4.7.0",
     "tslib": "^2.2.0"
   }
 }

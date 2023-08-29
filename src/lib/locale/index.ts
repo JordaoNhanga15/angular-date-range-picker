@@ -1,4 +1,4 @@
-{
+export const manifest = {
   "de": {
     "dark": "Dunkelmodus",
     "placeholder": "Geben Sie einen Datumsbereich ein"
@@ -167,10 +167,6 @@
     "dark": "ଡାର୍କ ମୋଡ୍",
     "placeholder": "ଏକ ତାରିଖ ରେଞ୍ଜ ଦାଖଲ କରନ୍ତୁ"
   },
-  "bn": {
-    "dark": "ডার্ক মোড",
-    "placeholder": "একটি তারিখ রেঞ্জ লিখুন"
-  },
   "as": {
     "dark": "ডাৰ্ক মোড",
     "placeholder": "এটা তাৰিখৰ পৰা পৰ্যায় দিবলৈ লিখক"
@@ -195,4 +191,4 @@
     "dark": "ໂປຣໂມຊັນ",
     "placeholder": "ປ້ອນຊ່ວງເວລາທີ່"
   }
-}
+};

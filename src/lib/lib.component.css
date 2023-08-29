@@ -1,0 +1,15 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css');
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+
+.twitter::before {
+  content: '\f099';
+}
+
+/* Regular Icon */
+.user::before {
+  content: '\f007';
+}
+
+.calendarr::before {
+  content: '\f073';
+}

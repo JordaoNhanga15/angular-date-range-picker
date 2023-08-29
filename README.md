@@ -53,8 +53,6 @@ export class AppComponent {
 
   row: DataInterface = {
     type: 'day',
-    isRange: true,
-    isDisabled: false,
     date: new Date(),
     containDarkMode: true,
     locale: 'en',

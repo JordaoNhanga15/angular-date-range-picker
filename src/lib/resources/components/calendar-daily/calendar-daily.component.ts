@@ -7,33 +7,33 @@ import {
   OnChanges,
   SimpleChanges,
   DoCheck,
-} from '@angular/core';
+} from "@angular/core";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from '@angular/forms';
+} from "@angular/forms";
 import {
   PaginationEnum,
   PaginationYearEnum,
-} from '../../../shared/models/strategy.model';
-import { DateContract } from '../../../core/contracts/index';
-import { DateService } from '../../../core/services/date.service';
-import { DataInterface } from '../../../core/interfaces/DataInterface';
-import { FormControlInterface } from '../../../core/interfaces/FormControlInterface';
-import { MessagesInterface } from '../../../core/interfaces/MessagesInterface';
+} from "../../../shared/models/strategy.model";
+import { DateContract } from "../../../core/contracts/index";
+import { DateService } from "../../../core/services/date.service";
+import { DataInterface } from "../../../core/interfaces/DataInterface";
+import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
+import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 import {
   formatDate,
   transformPipeInDate,
   splitDate,
   isBefore,
-} from '../../../shared/utils/formatDate';
+} from "../../../shared/utils/formatDate";
 
 @Component({
-  selector: 'lib-calendar-daily [row] [format]',
-  templateUrl: './calendar-daily.component.html',
-  styleUrls: ['./calendar-daily.component.css'],
+  selector: "lib-calendar-daily [row] [format]",
+  templateUrl: "./calendar-daily.component.html",
+  styleUrls: ["./calendar-daily.component.css"],
 })
 export class CalendarDailyComponent implements OnInit, DoCheck {
   formHeader: FormGroup;
@@ -57,7 +57,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       containDarkMode: [false, Validators.required],
       month: [
         this.cappitalizeFirstLetter(
-          this.currentDate.toLocaleString(this.row.locale, { month: 'long' })
+          this.currentDate.toLocaleString(this.row.locale, { month: "long" })
         ),
         Validators.required,
       ],
@@ -112,20 +112,20 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   handleDarkMode() {
     this.f.containDarkMode.setValue(!!this.f.containDarkMode.value);
 
-    const aside = document.querySelector('aside') as HTMLElement;
+    const aside = document.querySelector("aside") as HTMLElement;
 
     if (!aside) return;
 
-    const contain = aside.classList.contains('dark');
+    const contain = aside.classList.contains("dark");
 
     switch (contain) {
       case true:
-        aside.classList.remove('dark');
-        aside.classList.add('light');
+        aside.classList.remove("dark");
+        aside.classList.add("light");
         break;
       case false:
-        aside.classList.remove('light');
-        aside.classList.add('dark');
+        aside.classList.remove("light");
+        aside.classList.add("dark");
         break;
     }
   }
@@ -152,7 +152,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   get calendarHeader(): HTMLElement {
-    return this.calendar.querySelector('#year');
+    return this.calendar.querySelector("#year");
   }
 
   private getFebDays = (year: number) => {
@@ -160,11 +160,11 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   };
 
   protected generateCalendar(month: number, year: number) {
-    let calendar_days = this.calendar.querySelector('.calendar-days');
+    let calendar_days = this.calendar.querySelector(".calendar-days");
     let calendar_header_year = this.calendarHeader;
-    calendar_days.innerHTML = '';
+    calendar_days.innerHTML = "";
 
-    if ((!month && ![0, '0'].includes(month)) || typeof month == 'string')
+    if ((!month && ![0, "0"].includes(month)) || typeof month == "string")
       month = this.currentDate.getMonth();
 
     if (!year) year = this.currentDate.getFullYear();
@@ -178,7 +178,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
       // if (i === 0) continue;
 
-      let day = document.createElement('div') as any;
+      let day = document.createElement("div") as any;
       const isLessThanFirstDay = i - first_day.getDay() + 1;
       const isBiggerThanFirstDay = i >= first_day.getDay();
 
@@ -188,8 +188,8 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
         month == this.currentDate.getMonth();
 
       if (isBiggerThanFirstDay) {
-        day.classList.add('calendar-day-hover');
-        day.classList.add('bundle');
+        day.classList.add("calendar-day-hover");
+        day.classList.add("bundle");
         day.innerHTML = isLessThanFirstDay;
         day.innerHTML += `<span></span>
                           <span></span>
@@ -197,7 +197,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
                           <span></span>`;
 
         if (isCurrentDate) {
-          day.classList.add('curr-date');
+          day.classList.add("curr-date");
         }
       }
 
@@ -207,7 +207,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
         day.classList.add(containClassInDay);
       }
 
-      day.addEventListener('click', (ele: Event) =>
+      day.addEventListener("click", (ele: Event) =>
         this.eventDayClick(ele.target as HTMLDivElement)
       );
 
@@ -222,15 +222,15 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   handleDayClass(day: HTMLDivElement): string {
-    if (!day) return '';
+    if (!day) return "";
 
     const { dateRange, monthIndex } = this.f;
 
-    if (!dateRange.value) return '';
+    if (!dateRange.value) return "";
 
     const value = dateRange.value as String;
 
-    const [firstDate, secondDate] = value.split(' - ');
+    const [firstDate, secondDate] = value.split(" - ");
 
     const innerText = day.innerText;
 
@@ -248,9 +248,9 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       isTheSameYear &&
       Number(innerText) === Number(firstDateDay);
 
-    if (isTheSameDate) return 'selected';
+    if (isTheSameDate) return "selected";
 
-    if (!secondDate) return '';
+    if (!secondDate) return "";
 
     const [secondDateMonth, secondDateDay, secondDateYear] = splitDate(
       secondDate,
@@ -268,7 +268,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       isTheSameYearSecondDate &&
       Number(innerText) == Number(secondDateDay);
 
-    if (secondDate && isTheSameDateSecondDate) return 'selected';
+    if (secondDate && isTheSameDateSecondDate) return "selected";
 
     const parseFirstDate = transformPipeInDate(
       Number(firstDateDay),
@@ -288,15 +288,15 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       this.calendarHeaderYear
     );
 
-    if (!parseDayInnerText) return '';
+    if (!parseDayInnerText) return "";
 
     const isWithinTheRange =
       parseDayInnerText.getTime() > parseFirstDate.getTime() &&
       parseDayInnerText.getTime() < parseSecondDate.getTime();
 
-    if (isWithinTheRange) return 'interval';
+    if (isWithinTheRange) return "interval";
 
-    return '';
+    return "";
   }
 
   eventDayClick(element: HTMLDivElement) {
@@ -307,7 +307,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     if (this.f.firstDate.value && this.f.secondDate.value) {
       this.resetControls();
       calendarDays.forEach((day: HTMLDivElement) => {
-        day.classList.remove('selected');
+        day.classList.remove("selected");
       });
     }
 
@@ -357,21 +357,21 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     );
 
     this.f.dateRange.setValue(
-      `${firstDate} ${secondDate ? `- ${secondDate}` : ''}`
+      `${firstDate} ${secondDate ? `- ${secondDate}` : ""}`
     );
 
     return this.dateRange.emit(this.f.dateRange.value);
   }
 
   eventMonthClick() {
-    const containClass = this.monthElement.classList.contains('show');
+    const containClass = this.monthElement.classList.contains("show");
 
     switch (containClass) {
       case true:
-        this.monthElement.classList.remove('show');
+        this.monthElement.classList.remove("show");
         break;
       case false:
-        this.monthElement.classList.add('show');
+        this.monthElement.classList.add("show");
         break;
     }
   }
@@ -379,9 +379,9 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   generateCalendarYearly() {
     const { year } = this.f;
 
-    let yearList = this.calendar.querySelector('.year-list');
+    let yearList = this.calendar.querySelector(".year-list");
 
-    yearList.innerHTML = '';
+    yearList.innerHTML = "";
 
     if (!yearList) return;
 
@@ -390,20 +390,20 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       year.value + 1
     );
 
-    this.calendar.querySelector('#year-array').innerHTML =
-      yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+    this.calendar.querySelector("#year-array").innerHTML =
+      yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
-      let year = document.createElement('div');
+      let year = document.createElement("div");
       year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
       yearList.appendChild(year);
     });
 
     this.calendar
-      .querySelectorAll('.year-element')
+      .querySelectorAll(".year-element")
       .forEach((element: HTMLDivElement) => {
-        element.addEventListener('click', (ele: Event) =>
+        element.addEventListener("click", (ele: Event) =>
           this.handleYearClick(ele.target as HTMLDivElement)
         );
       });
@@ -415,64 +415,64 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     return {
       prevPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[0];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[0];
 
         if (y == 0) return;
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Math.max(0, y - 20), y);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
           yearList.appendChild(year);
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
       },
       nextPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[1];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[1];
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Number(y) + 1, Number(y) + 21);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
           yearList.appendChild(year);
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
@@ -481,8 +481,8 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   resetClassList() {
-    this.calendar.querySelector('.year-list').innerHTML = '';
-    this.calendar.querySelector('.calendar-days').innerHTML = '';
+    this.calendar.querySelector(".year-list").innerHTML = "";
+    this.calendar.querySelector(".calendar-days").innerHTML = "";
   }
 
   handleYearClick(element: HTMLDivElement) {
@@ -492,19 +492,17 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
 
     year.setValue(Number(element.dataset.year));
 
-    this.yearElement.classList.remove('show');
+    this.yearElement.classList.remove("show");
 
-    this.calendar.querySelector('.year-list').innerHTML = '';
+    this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   handleMonthClick(element: number) {
-    if (!element) return;
-
     const { monthIndex, year, month } = this.f;
 
     monthIndex.setValue(Number(element) + 1);
 
-    this.monthElement.classList.remove('show');
+    this.monthElement.classList.remove("show");
 
     this.generateCalendar(monthIndex.value - 1, year.value);
   }
@@ -516,33 +514,33 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   eventYearClick() {
-    const containClass = this.yearElement.classList.contains('show');
+    const containClass = this.yearElement.classList.contains("show");
 
     switch (containClass) {
       case true:
-        this.yearElement.classList.remove('show');
+        this.yearElement.classList.remove("show");
         break;
       case false:
-        this.yearElement.classList.add('show');
+        this.yearElement.classList.add("show");
         this.generateCalendarYearly();
         break;
     }
   }
 
   protected get calendar(): any {
-    return document.querySelector('.calendar');
+    return document.querySelector(".calendar");
   }
 
   protected get calendarDays(): any {
-    return document.querySelectorAll('.calendar-days .bundle');
+    return document.querySelectorAll(".calendar-days .bundle");
   }
 
   protected get monthElement(): any {
-    return document.querySelector('.month-container');
+    return document.querySelector(".month-container");
   }
 
   protected get yearElement(): any {
-    return document.querySelector('.year-container');
+    return document.querySelector(".year-container");
   }
 
   protected get years() {
@@ -553,12 +551,12 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   dateFormater(date: Date): string {
-    if (!date) return '';
+    if (!date) return "";
 
     return date.toLocaleDateString(this.row.locale, {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
     });
   }
 
@@ -577,23 +575,40 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   customMonths() {
-    if(this.row.locale){
+    if (this.row.locale) {
       this.monthNames = this.months.map((_, index) => {
         const date = new Date(this.currentDate.getFullYear(), index, 1);
-        return date.toLocaleDateString(this.row.locale, { month: 'long' });
+        const month = date.toLocaleDateString(this.row.locale, {
+          month: "long",
+        });
+        return this.cappitalizeFirstLetter(month);
       });
     }
   }
 
+  clearForm() {
+    this.resetControls();
+    this.resetClassList();
+    this.generateCalendar(
+      this.currentDate.getMonth(),
+      this.currentDate.getFullYear()
+    );
+    this.dateRange.emit(this.f.dateRange.value);
+  }
+
+  get dateRangeValue(): boolean {
+    return !!this.f.dateRange.value;
+  }
+
   customDaysOfWeek() {
-    if(this.row.locale){
+    if (this.row.locale) {
       this.daysOfWeek = [] as string[];
 
       const date = new Date();
 
       for (const _ of new Array(7).fill(0)) {
         this.daysOfWeek.push(
-          date.toLocaleDateString(this.row.locale, { weekday: 'narrow' })
+          date.toLocaleDateString(this.row.locale, { weekday: "narrow" })
         );
         date.setDate(date.getDate() + 1);
       }

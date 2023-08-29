@@ -108,6 +108,16 @@ export class CalendarYearlyComponent implements OnInit {
     return this.dateRange.emit(this.f.dateRange.value);
   }
 
+  get dateRangeValue(): boolean {
+    return !!this.f.dateRange.value;
+  }
+
+  clearForm(){
+    this.resetControls();
+    this.buildYearList();
+    this.dateRange.emit(this.f.dateRange.value);
+  }
+
   get currentDate(): Date {
     return new Date();
   }

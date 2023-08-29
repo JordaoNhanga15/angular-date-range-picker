@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import data from './locale/manifest.json';
 import { MessagesInterface } from './core/interfaces/MessagesInterface';
+import { manifest } from './locale';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,7 @@ export class LibService {
   fetchMessages(language: string): MessagesInterface {
     const lang = language || this.navigatorLanguage;
 
-    const messages =
-      data[lang as keyof typeof data] || data[lang as keyof typeof data];
+    const messages = manifest[lang as keyof typeof manifest] || manifest[lang as keyof typeof manifest];
 
     return messages;
   }

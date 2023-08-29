@@ -2,3 +2,7 @@
   position: relative !important;
   background: none !important;
 }
+
+.justify-content-end{
+  justify-content: flex-end !important;
+}

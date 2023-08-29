@@ -1,22 +1,50 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  DoCheck,
+} from "@angular/core";
 import {
   FormControl,
   FormGroup,
   FormBuilder,
   Validators,
-} from '@angular/forms';
-import { DateContract } from '../../../core/contracts/index';
-import { PaginationEnum } from '../../../shared/models/strategy.model';
-import { DateService } from '../../../core/services/date.service';
-import { DataInterface } from '../../../core/interfaces/DataInterface';
-import { FormControlInterface } from '../../../core/interfaces/FormControlInterface';
-import { isBefore } from '../../../shared/utils/formatDate';
-import { MessagesInterface } from '../../../core/interfaces/MessagesInterface';
+} from "@angular/forms";
+import { DateContract } from "../../../core/contracts/index";
+import { PaginationEnum } from "../../../shared/models/strategy.model";
+import { DateService } from "../../../core/services/date.service";
+import { DataInterface } from "../../../core/interfaces/DataInterface";
+import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
+import { isBefore } from "../../../shared/utils/formatDate";
+import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 
 @Component({
-  selector: 'lib-calendar-monthly',
-  templateUrl: './calendar-monthly.component.html',
-  styleUrls: ['./calendar-monthly.component.css'],
+  selector: "lib-calendar-monthly",
+  templateUrl: "./calendar-monthly.component.html",
+  styleUrls: ["./calendar-monthly.component.css"],
+  styles: [
+    `
+      /deep/ .year-class {
+        margin: 5px !important;
+      }
+
+      /deep/ .month-container {
+        padding: 5 !important;
+      }
+
+      /deep/ .month-list {
+        padding: 0 5px 0px 5px;
+        margin-bottom: 5px !important;
+        gap: 5 !important;
+      }
+
+      /deep/ .justify-content-end {
+        justify-content: flex-end !important;
+      }
+    `,
+  ],
 })
 export class CalendarMonthlyComponent implements OnInit, DoCheck {
   formHeader: FormGroup;
@@ -45,10 +73,13 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   }
 
   customMonths() {
-    if(this.row.locale){
+    if (this.row.locale) {
       this.monthNames = this.months.map((_, index) => {
         const date = new Date(this.currentDate.getFullYear(), index, 1);
-        return date.toLocaleDateString(this.row.locale, { month: 'long' });
+        const month = date.toLocaleDateString(this.row.locale, {
+          month: "long",
+        });
+        return this.cappitalizeFirstLetter(month);
       });
     }
   }
@@ -59,7 +90,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
       containDarkMode: [false, Validators.required],
       month: [
         this.cappitalizeFirstLetter(
-          this.currentDate.toLocaleString(this.row.locale, { month: 'long' })
+          this.currentDate.toLocaleString(this.row.locale, { month: "long" })
         ),
         Validators.required,
       ],
@@ -79,19 +110,19 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   }
 
   protected get calendar(): any {
-    return document.querySelector('.calendar');
+    return document.querySelector(".calendar");
   }
 
   protected get calendarMonths(): any {
-    return document.querySelectorAll('.month-element');
+    return document.querySelectorAll(".month-element");
   }
 
   protected get monthElement(): any {
-    return document.querySelector('.month-container');
+    return document.querySelector(".month-container");
   }
 
   protected get yearElement(): any {
-    return document.querySelector('.year-container');
+    return document.querySelector(".year-container");
   }
 
   protected get years() {
@@ -107,16 +138,16 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   }
 
   protected get calendarHeader(): HTMLElement {
-    return this.calendar.querySelector('#year-picker');
+    return this.calendar.querySelector("#year-picker");
   }
 
   dateFormater(date: Date, format: string): string {
-    if (!date) return '';
+    if (!date) return "";
 
     return date.toLocaleDateString(this.row.locale, {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
     });
   }
 
@@ -124,36 +155,50 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  clearForm() {
+    this.resetControls();
+    const months = this.calendarMonths as HTMLDivElement[];
+    months.forEach((m: HTMLDivElement) => {
+      m.classList.remove("selected");
+      m.classList.remove("interval");
+    });
+    this.dateRange.emit(this.f.dateRange.value);
+  }
+
+  get dateRangeValue(): boolean {
+    return !!this.f.dateRange.value;
+  }
+
   handleDarkMode() {
     this.formHeader.controls.containDarkMode.setValue(
       !!this.formHeader.controls.containDarkMode.value
     );
 
-    const aside = document.querySelector('aside') as HTMLElement;
+    const aside = document.querySelector("aside") as HTMLElement;
 
     if (!aside) return;
 
-    switch (aside.classList.contains('dark')) {
+    switch (aside.classList.contains("dark")) {
       case true:
-        aside.classList.remove('dark');
-        aside.classList.add('light');
+        aside.classList.remove("dark");
+        aside.classList.add("light");
         break;
       case false:
-        aside.classList.remove('light');
-        aside.classList.add('dark');
+        aside.classList.remove("light");
+        aside.classList.add("dark");
         break;
     }
   }
 
   eventYearClick() {
-    const containClass = this.yearElement.classList.contains('show');
+    const containClass = this.yearElement.classList.contains("show");
 
     switch (containClass) {
       case true:
-        this.yearElement.classList.remove('show');
+        this.yearElement.classList.remove("show");
         break;
       case false:
-        this.yearElement.classList.add('show');
+        this.yearElement.classList.add("show");
         this.generateCalendarYearly();
         break;
     }
@@ -162,9 +207,9 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   generateCalendarYearly() {
     const { year } = this.f;
 
-    let yearList = this.calendar.querySelector('.year-list');
+    let yearList = this.calendar.querySelector(".year-list");
 
-    yearList.innerHTML = '';
+    yearList.innerHTML = "";
 
     if (!yearList) return;
 
@@ -173,20 +218,20 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
       year.value + 1
     );
 
-    this.calendar.querySelector('#year-array').innerHTML =
-      yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+    this.calendar.querySelector("#year-array").innerHTML =
+      yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
-      let year = document.createElement('div');
+      let year = document.createElement("div");
       year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
       yearList.appendChild(year);
     });
 
     this.calendar
-      .querySelectorAll('.year-element')
+      .querySelectorAll(".year-element")
       .forEach((element: HTMLDivElement) => {
-        element.addEventListener('click', (ele: Event) =>
+        element.addEventListener("click", (ele: Event) =>
           this.handleYearClick(ele.target as HTMLDivElement)
         );
       });
@@ -199,9 +244,9 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
     year.setValue(Number(element.dataset.year));
 
-    this.yearElement.classList.remove('show');
+    this.yearElement.classList.remove("show");
 
-    this.calendar.querySelector('.year-list').innerHTML = '';
+    this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   handleCalendarYearBuildForm(type: string) {
@@ -210,64 +255,64 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     return {
       prevPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[0];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[0];
 
         if (y == 0) return;
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Math.max(0, y - 16), y);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
           yearList.appendChild(year);
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
       },
       nextPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[1];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[1];
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Number(y) + 1, Number(y) + 17);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
 
           yearList.appendChild(year);
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
@@ -280,13 +325,13 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
     const { dateRange, monthIndex } = this.f;
 
-    if (!dateRange.value) return '';
+    if (!dateRange.value) return "";
 
     const value = dateRange.value as String;
 
-    const [firstDate, secondDate] = value.split(' - ');
+    const [firstDate, secondDate] = value.split(" - ");
 
-    const [firstDateMonth, firstDateYear] = firstDate.split('/');
+    const [firstDateMonth, firstDateYear] = firstDate.split("/");
 
     const innerMonth = month + 1;
 
@@ -296,11 +341,11 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
     const isTheSameDate = isTheSameMonth && isTheSameYear;
 
-    if (isTheSameDate) return 'selected';
+    if (isTheSameDate) return "selected";
 
-    if (!secondDate) return '';
+    if (!secondDate) return "";
 
-    const [secondDateMonth, secondDateYear] = secondDate.split('/');
+    const [secondDateMonth, secondDateYear] = secondDate.split("/");
 
     const isTheSameMonthSecondDate = Number(secondDateMonth) == innerMonth;
 
@@ -310,7 +355,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     const isTheSameDateSecondDate =
       isTheSameMonthSecondDate && isTheSameYearSecondDate;
 
-    if (secondDate && isTheSameDateSecondDate) return 'selected';
+    if (secondDate && isTheSameDateSecondDate) return "selected";
 
     const parseDayInnerText = this.date.transformPipeInDate(
       Number(1),
@@ -318,16 +363,16 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
       this.calendarHeaderYear
     );
 
-    if (!parseDayInnerText) return '';
+    if (!parseDayInnerText) return "";
 
     const isWithinTheRange =
       Number(innerMonth) < Number(secondDateMonth) &&
       innerMonth > Number(firstDateMonth) &&
       isTheSameYear;
 
-    if (isWithinTheRange) return 'interval';
+    if (isWithinTheRange) return "interval";
 
-    return '';
+    return "";
   }
 
   private resetControls() {
@@ -337,15 +382,15 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   }
 
   eventMonthClick(month: any): void {
-    if (['', undefined, null].includes(month)) return;
+    if (["", undefined, null].includes(month)) return;
 
     const months = this.calendarMonths as HTMLDivElement[];
 
     if (this.f.firstDate.value && this.f.secondDate.value) {
       this.resetControls();
       months.forEach((m: HTMLDivElement) => {
-        m.classList.remove('selected');
-        m.classList.remove('interval');
+        m.classList.remove("selected");
+        m.classList.remove("interval");
       });
     }
 
@@ -383,26 +428,26 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
     const element = months[month];
 
-    element.classList.add('selected');
+    element.classList.add("selected");
 
     if (!year.value) year.setValue(this.currentDate.getFullYear());
 
     const firstDate = this.date.formatDate(this.f.firstDate.value, (d) =>
       d.toLocaleDateString(this.row.locale, {
-        year: 'numeric',
-        month: '2-digit',
+        year: "numeric",
+        month: "2-digit",
       })
     );
 
     const secondDate = this.date.formatDate(this.f.secondDate.value, (d) =>
       d.toLocaleDateString(this.row.locale, {
-        year: 'numeric',
-        month: '2-digit',
+        year: "numeric",
+        month: "2-digit",
       })
     );
 
     this.f.dateRange.setValue(
-      `${firstDate} ${secondDate ? `- ${secondDate}` : ''}`
+      `${firstDate} ${secondDate ? `- ${secondDate}` : ""}`
     );
 
     return this.dateRange.emit(this.f.dateRange.value);

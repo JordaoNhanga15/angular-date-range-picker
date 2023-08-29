@@ -4,7 +4,8 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "styleIncludePaths": [
-      "src/styles"
+      "src/styles",
+      "node_modules/font-awesome/css/font-awesome.css"
     ]
   },
   "allowedNonPeerDependencies": [
@@ -12,8 +13,7 @@
     "@angular/*",
     "rxjs/*",
     "tslib",
-    "zone.js",
-    "@ngx-translate/*"
+    "zone.js"
   ],
   "assets": [
     "src/assets"

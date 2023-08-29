@@ -73,7 +73,7 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         --range-lib: #0000ff;
         --range-lib-interval: rgba(63, 81, 181, 0.2);
         --white: #fff;
-        --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        --shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         --font-family: Roboto;
       }
 
@@ -89,6 +89,7 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         --color-hover: var(--dark-hover);
         --color-txt: var(--dark-text);
         --color-txt-inverse: var(--light-text);
+        box-shadow: var(--shadow);
       }
 
       /deep/ .light {
@@ -97,13 +98,14 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         --bg-main-inverse: var(--dark-main);
         --bg-second: var(--light-second);
         --color-hover: var(--light-hover);
+        box-shadow: var(--shadow);
         --color-txt: var(--light-text);
         --color-txt-inverse: var(--dark-text);
       }
 
       /deep/ .date-input {
         position: relative;
-        display: inline-block;
+        display: grid;
         background-color: var(--bg-main);
         width: 100%;
         color: var(--color-txt);
@@ -112,9 +114,9 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       /deep/ .date-input input {
         padding: 8px 12px;
         background: none;
-        width: 100%;
         font-size: 14px;
         color: var(--color-txt);
+        border 0px !important;
       }
 
       /deep/ .date-input input::placeholder {
@@ -131,7 +133,6 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         top: 50%;
         right: 0px;
         transform: translateY(-50%);
-        // border: 1px solid var(--color-txt);
         height: 100%;
         align-items: center;
         justify-content: center;
@@ -143,10 +144,12 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       }
 
       /deep/ .light {
-        display: grid;
+        // display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
         place-items: center;
         font-family: var(--font-family);
-        width: 37%;
       }
 
       @media screen and (max-width: 767px) {
@@ -176,10 +179,12 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       }
 
       /deep/ .dark {
-        display: grid;
+        // display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
         place-items: center;
         font-family: var(--font-family);
-        width: 37%;
       }
 
       /deep/ .selected {
@@ -199,13 +204,14 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
 
       /deep/ .calendar {
         height: max-content;
-        width: 100% !important;
+        width: max-content;
         background-color: var(--bg-main);
-        // border-radius: 30px;
-        padding: 20px;
-        position: relative;
+        position: absolute;
+        z-index: 999;
         overflow: hidden;
         display: none;
+        width: 100%;
+        max-width: -moz-available;
         /* transform: scale(1.25); */
       }
 
@@ -253,7 +259,6 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       }
 
       /deep/ .calendar-days div {
-        width: 50px;
         height: 50px;
         display: flex;
         align-items: center;
@@ -332,7 +337,7 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       /deep/ .calendar-days div.curr-date,
       /deep/ .calendar-days div.curr-date:hover {
         border: 2px solid var(--color-txt);
-        border-radius: 50%;
+        border-radius: 100%;
       }
 
       /deep/ .calendar-days div.curr-date span {
@@ -387,8 +392,26 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       /deep/ .calendar-footer {
         padding: 10px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        justify-items: center;
+        align-content: center;
         align-items: center;
+      }
+
+      /deep/ .calendar-footer  .trash-link-button {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        font-size: 20px;
+        align-items: center;
+        justify-content: center;
+        background: #bc3b44;
+        color: var(--color-txt);
+        border: 1px solid #eee;
+        opacity: 0.9;
+        border-radius: 50%;
+        cursor: pointer;
       }
 
       /deep/ .toggle {
@@ -545,10 +568,11 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         grid-template-columns: repeat(3, auto);
         gap: 10px;
         display: grid;
-        font-size: 1rem;
+        // font-size: 1rem;
+        width: 100% !important;
         /* transform: scale(1.5);
-      visibility: hidden;
-      pointer-events: none; */
+        visibility: hidden;
+        pointer-events: none; */
       }
 
       /deep/ .month-list.show {
@@ -674,7 +698,6 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes)
   }
 
   // get translate(): MessagesInterface {

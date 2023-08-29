@@ -12,11 +12,15 @@
   <div class="year-list"></div>
 </div>
 
-<div class="calendar-footer" *ngIf="row.containDarkMode">
-  <div class="toggle" (click)="handleDarkMode()">
+<div class="calendar-footer" [ngClass]="{'justify-content-end': !dateRangeValue}">
+  <button (click)="clearForm()" class="trash-link-button" *ngIf="dateRangeValue">
+    <span class="fa fa-trash"></span>
+  </button>
+  <div class="toggle" (click)="handleDarkMode()" *ngIf="row.containDarkMode">
     <span>{{messages.dark}}</span>
     <div class="dark-mode-switch">
       <div class="dark-mode-switch-ident"></div>
     </div>
   </div>
 </div>
+

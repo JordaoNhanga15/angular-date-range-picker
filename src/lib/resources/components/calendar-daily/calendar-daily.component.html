@@ -3,8 +3,7 @@
   <div class="year-picker">
     <span class="year-change" id="prev-year" (click)="handleCalendarBuildForm('prevYear')">
       <div>
-        <
-      </div>
+        < </div>
     </span>
     <span id="year" class="year-value">{{f.year.value}}</span>
     <span class="year-change" id="next-year" (click)="handleCalendarBuildForm('nextYear')">
@@ -20,8 +19,11 @@
   <div class="calendar-days"></div>
 </div>
 
-<div class="calendar-footer" *ngIf="row.containDarkMode">
-  <div class="toggle" (click)="handleDarkMode()">
+<div class="calendar-footer" [ngClass]="{'justify-content-end': !dateRangeValue}">
+  <button (click)="clearForm()" class="trash-link-button" *ngIf="dateRangeValue">
+    <span class="fa fa-trash"></span>
+  </button>
+  <div class="toggle" (click)="handleDarkMode()" *ngIf="row.containDarkMode">
     <span>{{messages.dark}}</span>
     <div class="dark-mode-switch">
       <div class="dark-mode-switch-ident"></div>
@@ -41,8 +43,7 @@
   <div class="year-pickers calendar-header">
     <span class="year-change" id="prev-pagination" (click)="handleCalendarYearBuildForm('prevPagination')">
       <div>
-        <
-      </div>
+        < </div>
     </span>
     <span id="year-array">2021 - 2028</span>
     <span class="year-change" id="next-pagination" (click)="handleCalendarYearBuildForm('nextPagination')">
