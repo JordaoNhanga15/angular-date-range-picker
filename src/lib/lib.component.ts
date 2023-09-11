@@ -5,14 +5,14 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DataInterface } from './core/interfaces/DataInterface';
-import { LibService } from './lib.service';
-import { MessagesInterface } from './core/interfaces/MessagesInterface';
+} from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { DataInterface } from "./core/interfaces/DataInterface";
+import { LibService } from "./lib.service";
+import { MessagesInterface } from "./core/interfaces/MessagesInterface";
 
 @Component({
-  selector: 'date-range-picker',
+  selector: "date-range-picker",
   template: `
     <aside class="light">
       <div class="date-input" (click)="eventCalendar()">
@@ -56,7 +56,7 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       </div>
     </aside>
   `,
-  styleUrls: ['./lib.component.css'],
+  styleUrls: ["./lib.component.css"],
   styles: [
     `
       /deep/ :root {
@@ -75,6 +75,7 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
         --white: #fff;
         --shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         --font-family: Roboto;
+        --background-disabled: #ccc;
       }
 
       .calendar-lib {
@@ -198,8 +199,11 @@ import { MessagesInterface } from './core/interfaces/MessagesInterface';
       }
 
       /deep/ .isDisabled {
-        opacity: 0.5;
-        pointer-events: none;
+        opacity: 0.65 !important;
+        pointer-events: none !important;
+        cursor: not-allowed !important;
+        background-color: var(--background-disabled) !important;
+        color: #000 !important;
       }
 
       /deep/ .calendar {
@@ -640,9 +644,7 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   @Input() format: string;
   @Input() control: FormControl = new FormControl();
   translate: MessagesInterface;
-  constructor(
-    private libService: LibService,
-  ) {}
+  constructor(private libService: LibService) {}
 
   onDateRangeChange(date: { dateRange: Date }) {
     if (!date) {
@@ -651,8 +653,7 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     this.control.setValue(date);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngDoCheck(): void {
     this.validateColor();
@@ -663,31 +664,31 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     if (this.row.backGroundColorPrimary) {
       const isValid = this.libService.isValidColor(
         this.row.backGroundColorPrimary,
-        'range-lib'
+        "range-lib"
       );
 
       if (!isValid) return;
 
-      this.setCustomProperty(this.row.backGroundColorPrimary, 'range-lib');
+      this.setCustomProperty(this.row.backGroundColorPrimary, "range-lib");
     }
 
     if (this.row.backGroundColorSecondary) {
       const isValid = this.libService.isValidColor(
         this.row.backGroundColorSecondary,
-        'range-lib-interval'
+        "range-lib-interval"
       );
 
       if (!isValid) return;
 
       this.setCustomProperty(
         this.row.backGroundColorSecondary,
-        'range-lib-interval'
+        "range-lib-interval"
       );
     }
   }
 
-  customTranslate(){
-    if(this.row.locale){
+  customTranslate() {
+    if (this.row.locale) {
       this.translate = this.libService.fetchMessages(this.row.locale);
     }
   }
@@ -697,22 +698,21 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     document.documentElement.style.setProperty(cssVariable, color);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   // get translate(): MessagesInterface {
   //   return this.libService.fetchMessages(this.row.locale);
   // }
 
   eventCalendar() {
-    const calendarLib = document.querySelector('#calendar-lib') as HTMLElement;
+    const calendarLib = document.querySelector("#calendar-lib") as HTMLElement;
 
-    switch (calendarLib.classList.contains('show')) {
+    switch (calendarLib.classList.contains("show")) {
       case true:
-        calendarLib.classList.remove('show');
+        calendarLib.classList.remove("show");
         break;
       case false:
-        calendarLib.classList.add('show');
+        calendarLib.classList.add("show");
         break;
     }
   }

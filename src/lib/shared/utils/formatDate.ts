@@ -1,9 +1,11 @@
-import { DataInterface } from '../../core/interfaces/DataInterface';
+import { DataInterface } from "../../core/interfaces/DataInterface";
+import { detectDateFormats } from "./detectDateFormats";
+
 export const formatDate = (
   date: Date,
   callback: (date: Date) => string
 ): string => {
-  if (!date) return '';
+  if (!date) return "";
   return callback(date);
 };
 
@@ -17,60 +19,94 @@ export const isAfter = (date: Date, compare: Date): boolean => {
   return date.getTime() > compare.getTime();
 };
 
-export const transformPipeInDate = (day: number, month: number, year: number): Date => {
+export const transformPipeInDate = (
+  day: number,
+  month: number,
+  year: number
+): Date => {
   return new Date(year, month, day);
 };
 
 export const splitDate = (date: string, contract: DataInterface): string[] => {
-  if(!date) return [];
+  if (!date) return [];
 
-  const formattedString = date.replace(/\./g, '/');
+  let formattedString = date.replace(/\./g, "/");
+
+  if (!formattedString) return [];
 
   return {
     month: () => {
-      const formatter = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'numeric',
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "numeric",
       });
 
-      const parsedDate = new Date(formatter.format(new Date(formattedString)));
+      if (!formattedString) return [];
+
+      const newDate = new Date(formattedString);
+
+      if (!isNaN(newDate.getTime())) return [];
+
+      const parsedDate = new Date(formatter.format(newDate));
 
       return parsedDate
-        .toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'numeric',
+        .toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "numeric",
         })
-        .split('/');
+        .split("/");
     },
     day: () => {
-      const formatter = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
       });
 
-      const parsedDate = new Date(formatter.format(new Date(formattedString)));
+      if (!formattedString) return [];
+
+      const wasDetected = detectDateFormats(formattedString);
+
+      if (wasDetected.length) {
+        const reverse = wasDetected.reverse();
+
+        formattedString = reverse.toString();
+
+        const splited = formattedString.split("/");
+
+        const [day, month, year] = splited;
+
+        return [month, day, year];
+      }
+
+      const newDate = new Date(formattedString);
+
+      const parsedDate = new Date(formatter.format(newDate));
 
       return parsedDate
-        .toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
+        .toLocaleDateString("en-Us", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
         })
-        .split('/');
+        .split("/");
     },
     year: () => {
-      const formatter = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
       });
 
-      const parsedDate = new Date(formatter.format(new Date(formattedString)));
+      const newDate = new Date(formattedString);
+
+      if (!isNaN(newDate.getTime())) return [];
+
+      const parsedDate = new Date(formatter.format(newDate));
 
       return parsedDate
-        .toLocaleDateString('en-US', {
-          year: 'numeric',
+        .toLocaleDateString("en-US", {
+          year: "numeric",
         })
-        .split('/');
+        .split("/");
     },
     week: () => [],
     decade: () => [],

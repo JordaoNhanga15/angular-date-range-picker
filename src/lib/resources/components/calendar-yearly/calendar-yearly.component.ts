@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import {
   FormControl,
   FormGroup,
   FormBuilder,
   Validators,
-} from '@angular/forms';
-import { DateContract } from '../../../core/contracts/index';
-import { PaginationEnum } from '../../../shared/models/strategy.model';
-import { DateService } from '../../../core/services/date.service';
-import { DataInterface } from '../../../core/interfaces/DataInterface';
-import { FormControlInterface } from '../../../core/interfaces/FormControlInterface';
-import { isBefore } from '../../../shared/utils/formatDate';
-import { MessagesInterface } from '../../../core/interfaces/MessagesInterface';
+} from "@angular/forms";
+import { DateContract } from "../../../core/contracts/index";
+import { PaginationEnum } from "../../../shared/models/strategy.model";
+import { DateService } from "../../../core/services/date.service";
+import { DataInterface } from "../../../core/interfaces/DataInterface";
+import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
+import { isBefore } from "../../../shared/utils/formatDate";
+import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 
 @Component({
-  selector: 'lib-calendar-yearly',
-  templateUrl: './calendar-yearly.component.html',
-  styleUrls: ['./calendar-yearly.component.css'],
+  selector: "lib-calendar-yearly",
+  templateUrl: "./calendar-yearly.component.html",
+  styleUrls: ["./calendar-yearly.component.css"],
 })
 export class CalendarYearlyComponent implements OnInit {
   formHeader: FormGroup;
@@ -45,7 +45,7 @@ export class CalendarYearlyComponent implements OnInit {
       containDarkMode: [false, Validators.required],
       month: [
         this.cappitalizeFirstLetter(
-          this.currentDate.toLocaleString(this.row.locale, { month: 'long' })
+          this.currentDate.toLocaleString(this.row.locale, { month: "long" })
         ),
         Validators.required,
       ],
@@ -63,8 +63,8 @@ export class CalendarYearlyComponent implements OnInit {
     if (this.f.firstDate.value && this.f.secondDate.value) {
       this.resetControls();
       years.forEach((m: HTMLDivElement) => {
-        m.classList.remove('selected');
-        m.classList.remove('interval');
+        m.classList.remove("selected");
+        m.classList.remove("interval");
       });
     }
 
@@ -102,7 +102,7 @@ export class CalendarYearlyComponent implements OnInit {
     );
 
     this.f.dateRange.setValue(
-      `${firstDate} ${secondDate ? ` - ${secondDate}` : ''}`
+      `${firstDate} ${secondDate ? ` - ${secondDate}` : ""}`
     );
 
     return this.dateRange.emit(this.f.dateRange.value);
@@ -112,7 +112,7 @@ export class CalendarYearlyComponent implements OnInit {
     return !!this.f.dateRange.value;
   }
 
-  clearForm(){
+  clearForm() {
     this.resetControls();
     this.buildYearList();
     this.dateRange.emit(this.f.dateRange.value);
@@ -123,19 +123,19 @@ export class CalendarYearlyComponent implements OnInit {
   }
 
   protected get calendar(): any {
-    return document.querySelector('.calendar');
+    return document.querySelector(".calendar");
   }
 
   protected get calendarYears(): any {
-    return document.querySelectorAll('.year-element');
+    return document.querySelectorAll(".year-element");
   }
 
   protected get monthElement(): any {
-    return document.querySelector('.month-container');
+    return document.querySelector(".month-container");
   }
 
   protected get yearElement(): any {
-    return document.querySelector('.year-container');
+    return document.querySelector(".year-container");
   }
 
   protected get years() {
@@ -155,7 +155,7 @@ export class CalendarYearlyComponent implements OnInit {
   }
 
   protected get calendarHeader(): HTMLElement {
-    return this.calendar.querySelector('#year-picker');
+    return this.calendar.querySelector("#year-picker");
   }
 
   private resetControls() {
@@ -170,24 +170,24 @@ export class CalendarYearlyComponent implements OnInit {
     return {
       prevPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[0];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[0];
 
         if (y == 0) return;
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Math.max(0, y - 16), y);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element ${this.handleYearClass(
             e
           )}" >${e}</div>`;
@@ -196,31 +196,31 @@ export class CalendarYearlyComponent implements OnInit {
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
       },
       nextPagination: () => {
         let y = this.calendar
-          .querySelector('#year-array')
-          .innerHTML.split(' - ')[1];
+          .querySelector("#year-array")
+          .innerHTML.split(" - ")[1];
 
         if (!y) y = new Date().getFullYear();
 
-        let yearList = this.calendar.querySelector('.year-list');
+        let yearList = this.calendar.querySelector(".year-list");
 
         let yearsAbove = this.years.slice(Number(y) + 1, Number(y) + 17);
 
-        yearList.innerHTML = '';
+        yearList.innerHTML = "";
 
-        this.calendar.querySelector('#year-array').innerHTML =
-          yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+        this.calendar.querySelector("#year-array").innerHTML =
+          yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
         yearsAbove.forEach((e, index) => {
-          let year = document.createElement('div');
+          let year = document.createElement("div");
           year.innerHTML = `<div data-year="${e}" class="year-element ${this.handleYearClass(
             e
           )}" >${e}</div>`;
@@ -229,9 +229,9 @@ export class CalendarYearlyComponent implements OnInit {
         });
 
         this.calendar
-          .querySelectorAll('.year-element')
+          .querySelectorAll(".year-element")
           .forEach((element: HTMLDivElement) => {
-            element.addEventListener('click', (ele: Event) =>
+            element.addEventListener("click", (ele: Event) =>
               this.handleYearClick(ele.target as HTMLDivElement)
             );
           });
@@ -242,17 +242,17 @@ export class CalendarYearlyComponent implements OnInit {
   buildYearList() {
     let y = new Date().getFullYear();
 
-    let yearList = this.calendar.querySelector('.year-list');
+    let yearList = this.calendar.querySelector(".year-list");
 
     let yearsAbove = this.years.slice(Number(y), Number(y) + 16);
 
-    yearList.innerHTML = '';
+    yearList.innerHTML = "";
 
-    this.calendar.querySelector('#year-array').innerHTML =
-      yearsAbove[0] + ' - ' + yearsAbove[yearsAbove.length - 1];
+    this.calendar.querySelector("#year-array").innerHTML =
+      yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
-      let year = document.createElement('div');
+      let year = document.createElement("div");
       year.innerHTML = `<div data-year="${e}" class="year-element ${this.handleYearClass(
         e
       )}" >${e}</div>`;
@@ -261,9 +261,9 @@ export class CalendarYearlyComponent implements OnInit {
     });
 
     this.calendar
-      .querySelectorAll('.year-element')
+      .querySelectorAll(".year-element")
       .forEach((element: HTMLDivElement) => {
-        element.addEventListener('click', (ele: Event) =>
+        element.addEventListener("click", (ele: Event) =>
           this.handleYearClick(ele.target as HTMLDivElement)
         );
       });
@@ -272,36 +272,52 @@ export class CalendarYearlyComponent implements OnInit {
   handleYearClass(year: number): string {
     const { firstDate, secondDate } = this.f;
 
+    const { maxDate, minDate } = this.row;
+
+    if (maxDate || minDate) {
+      if (maxDate || minDate) {
+        const dateBefore = new Date(year, 1, 1);
+
+        const isBeforeMinDate = isBefore(dateBefore, minDate);
+
+        const dateAfter = new Date(year, 1, 1);
+
+        const isAfterMaxDate = isBefore(maxDate, dateAfter);
+
+        if (isBeforeMinDate || isAfterMaxDate) return "isDisabled";
+      }
+    }
+
     const isTheSameYear =
       year == Number(firstDate.value) || year == Number(secondDate.value);
 
-    if (isTheSameYear) return 'selected';
+    if (isTheSameYear) return "selected";
 
     const isWithinTheRange =
       year < Number(secondDate.value) && year > Number(firstDate.value);
 
-    if (isWithinTheRange && !isTheSameYear) return 'interval';
+    if (isWithinTheRange && !isTheSameYear) return "interval";
 
-    return '';
+    return "";
   }
 
   handleDarkMode() {
     this.f.containDarkMode.setValue(!!this.f.containDarkMode.value);
 
-    const aside = document.querySelector('aside') as HTMLElement;
+    const aside = document.querySelector("aside") as HTMLElement;
 
     if (!aside) return;
 
-    const contain = aside.classList.contains('dark');
+    const contain = aside.classList.contains("dark");
 
     switch (contain) {
       case true:
-        aside.classList.remove('dark');
-        aside.classList.add('light');
+        aside.classList.remove("dark");
+        aside.classList.add("light");
         break;
       case false:
-        aside.classList.remove('light');
-        aside.classList.add('dark');
+        aside.classList.remove("light");
+        aside.classList.add("dark");
         break;
     }
   }

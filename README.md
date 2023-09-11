@@ -58,6 +58,8 @@ export class AppComponent {
     locale: 'en',
     backGroundColorPrimary: '#F1BF98',
     backGroundColorSecondary: '#FDF4ED',
+    maxDate: new Date(),
+    minDate: new Date(),
   };
 }
 ```
@@ -68,10 +70,15 @@ export class AppComponent {
 - Allows formatting based on different regions.
 - Provides internationalization (i18n) support.
 - Customizable CSS styling.
+- Supports dark mode.
+- Allows setting a maximum and minimum date range.
+- Supports reactive forms.
+- Supports template-driven forms.
+- Supports Angular 11.
 
 ## Contributions
 
-Contributions are welcome! Feel free to open issues or pull requests on the [GitHub repository](https://github.com/JordaoNhanga15/date-range-picker).
+Contributions are welcome! Feel free to open issues or pull requests on the [GitHub repository](https://github.com/JordaoNhanga15/angular-date-range-picker).
 
 ## Author
 

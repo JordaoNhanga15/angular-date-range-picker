@@ -323,7 +323,25 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   handleMonthClass(month: number): string {
     // if (!month) return '';
 
-    const { dateRange, monthIndex } = this.f;
+    const { dateRange, monthIndex, year } = this.f;
+
+    const innerMonth = month + 1;
+
+    const { maxDate, minDate } = this.row;
+
+    if (maxDate || minDate) {
+      if (maxDate || minDate) {
+        const dateBefore = new Date(year.value, innerMonth, 1);
+
+        const isBeforeMinDate = isBefore(dateBefore, minDate);
+
+        const dateAfter = new Date(year.value, innerMonth, 1);
+
+        const isAfterMaxDate = isBefore(maxDate, dateAfter);
+
+        if (isBeforeMinDate || isAfterMaxDate) return "isDisabled";
+      }
+    }
 
     if (!dateRange.value) return "";
 
@@ -332,8 +350,6 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     const [firstDate, secondDate] = value.split(" - ");
 
     const [firstDateMonth, firstDateYear] = firstDate.split("/");
-
-    const innerMonth = month + 1;
 
     const isTheSameMonth = Number(firstDateMonth) == innerMonth;
 

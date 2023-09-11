@@ -85,21 +85,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     return this.formHeader.controls as FormControlInterface;
   }
 
-  // get daysOfWeek(): string[] {
-  //   const daysOfWeek = [] as string[];
-
-  //   const date = new Date();
-
-  //   for (const _ of new Array(7).fill(0)) {
-  //     daysOfWeek.push(
-  //       date.toLocaleDateString(this.row.locale, { weekday: 'narrow' })
-  //     );
-  //     date.setDate(date.getDate() + 1);
-  //   }
-
-  //   return daysOfWeek;
-  // }
-
   private isLeapYear = (year: number) => {
     if (!year) return new Date().getFullYear();
 
@@ -224,7 +209,23 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   handleDayClass(day: HTMLDivElement): string {
     if (!day) return "";
 
-    const { dateRange, monthIndex } = this.f;
+    const { dateRange, monthIndex, year } = this.f;
+
+    const innerText = Number(day.innerText);
+
+    const { maxDate, minDate } = this.row;
+
+    if (maxDate || minDate) {
+      const dateBefore = new Date(year.value, monthIndex.value - 1, innerText);
+
+      const isBeforeMinDate = isBefore(dateBefore, minDate);
+
+      const dateAfter = new Date(year.value, monthIndex.value - 1, innerText);
+
+      const isAfterMaxDate = isBefore(maxDate, dateAfter);
+
+      if (isBeforeMinDate || isAfterMaxDate) return "isDisabled";
+    }
 
     if (!dateRange.value) return "";
 
@@ -232,12 +233,12 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
 
     const [firstDate, secondDate] = value.split(" - ");
 
-    const innerText = day.innerText;
-
     const [firstDateMonth, firstDateDay, firstDateYear] = splitDate(
       firstDate,
       this.row
     );
+
+    if (!firstDateMonth || !firstDateDay || !firstDateYear) return "";
 
     const isTheSameMonth = Number(firstDateMonth) === monthIndex.value;
 
@@ -256,6 +257,8 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       secondDate,
       this.row
     );
+
+    if (!secondDateMonth || !secondDateDay || !secondDateYear) return "";
 
     const isTheSameMonthSecondDate =
       Number(secondDateMonth) == monthIndex.value;
