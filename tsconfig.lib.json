@@ -1,7 +1,7 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*.json"],
+  "include": ["src/**/*.json", "src/**/*.ts", "src/**/*.html", "src/**/*.scss","./src/"],
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
@@ -20,7 +20,10 @@
     "resolveJsonModule": false,
   },
   "exclude": [
+    // "node_modules",
     "src/test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    // "**/*.d.ts",
+    // "**/*.stub.ts"
   ]
 }

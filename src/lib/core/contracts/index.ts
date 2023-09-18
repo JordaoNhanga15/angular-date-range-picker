@@ -6,11 +6,8 @@ import { ContractInterface } from '../interfaces/ContractInterface';
 
 const contracts = {
   [TypeContract.day]: contractsByType.day,
-  [TypeContract.week]: contractsByType.week,
   [TypeContract.month]: contractsByType.month,
   [TypeContract.year]: contractsByType.year,
-  [TypeContract.decade]: contractsByType.decade,
-  [TypeContract.century]: contractsByType.century,
 };
 
 export class DateContract {

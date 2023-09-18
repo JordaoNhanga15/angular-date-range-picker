@@ -56,8 +56,8 @@ export class AppComponent {
     date: new Date(),
     containDarkMode: true,
     locale: 'en',
-    backGroundColorPrimary: '#F1BF98',
-    backGroundColorSecondary: '#FDF4ED',
+    backgroundColorPrimary: '#F1BF98',
+    backgroundColorSecondary: '#FDF4ED',
     maxDate: new Date(),
     minDate: new Date(),
   };

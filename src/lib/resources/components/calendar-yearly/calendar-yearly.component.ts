@@ -15,8 +15,262 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 
 @Component({
   selector: "lib-calendar-yearly",
-  templateUrl: "./calendar-yearly.component.html",
-  styleUrls: ["./calendar-yearly.component.css"],
+  // templateUrl: "./calendar-yearly.component.html",
+  template: `
+    <div class="year-container show">
+      <div class="year-pickers calendar-header">
+        <span
+          class="year-change"
+          id="prev-pagination"
+          (click)="handleCalendarYearBuildForm('prevPagination')"
+        >
+          <div><</div>
+        </span>
+        <span id="year-array">2021 - 2028</span>
+        <span
+          class="year-change"
+          id="next-pagination"
+          (click)="handleCalendarYearBuildForm('nextPagination')"
+        >
+          <div>></div>
+        </span>
+      </div>
+      <div class="year-list"></div>
+    </div>
+
+    <div
+      class="calendar-footer"
+      [ngClass]="{ 'justify-content-end': !dateRangeValue }"
+    >
+      <button
+        (click)="clearForm()"
+        class="trash-link-button"
+        *ngIf="dateRangeValue"
+      >
+        <span class="fa fa-trash"></span>
+      </button>
+      <div
+        class="toggle"
+        (click)="handleDarkMode()"
+        *ngIf="row.containDarkMode"
+      >
+        <span>{{ messages.dark }}</span>
+        <div class="dark-mode-switch">
+          <div class="dark-mode-switch-ident"></div>
+        </div>
+      </div>
+    </div>
+  `,
+  // styleUrls: ["./calendar-yearly.component.css"],
+  styles: [
+    `
+      .calendar-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        justify-items: center !important;
+        align-items: center !important;
+        font-size: 25px !important;
+        font-weight: 600 !important;
+        color: var(--color-txt) !important;
+        padding: 10px !important;
+      }
+
+      .year-picker {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .year-change {
+        width: 40px !important;
+        max-height: 40px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        place-items: center !important;
+        margin: 0 10px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .year-change:hover {
+        box-shadow: var(--shadow) !important;
+        background-color: var(--color-hover) !important;
+      }
+
+      .year-container {
+        display: flex !important;
+        justify-content: flex-start !important;
+        position: relative !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        transform: scale(1.5) !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+        background-color: var(--bg-main) !important;
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        align-items: center !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .year-container.show {
+        transform: scale(1) !important;
+        visibility: visible !important;
+        pointer-events: visible !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .year-list {
+        width: 100% !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        justify-items: center !important;
+        background-color: var(--bg-main) !important;
+        padding: 20px !important;
+        grid-template-columns: 1fr 1fr 1fr 1fr !important;
+        gap: 10px 30px !important;
+        display: grid !important;
+        margin-right: 17px !important;
+      }
+
+      .year-list div {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        color: var(--color-txt) !important;
+        height: 60px !important;
+        cursor: pointer !important;
+        font-size: 1.5rem !important;
+      }
+
+      .year-list div:hover {
+        background-color: var(--color-hover) !important;
+        border-radius: 10px !important;
+        transition: all 0.2s ease-in-out !important;
+        cursor: pointer !important;
+      }
+
+      .year-picker {
+        padding: 5px 10px !important;
+        margin-left: 20px !important;
+        border-radius: 10px !important;
+        cursor: pointer !important;
+      }
+
+      .year-pickers {
+        border-radius: 10px !important;
+        cursor: pointer !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .year-picker:hover {
+        transition: all 0.2s ease-in-out !important;
+        background-color: var(--color-hover) !important;
+      }
+
+      .month-container.show {
+        transform: scale(1) !important;
+        visibility: visible !important;
+        pointer-events: visible !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .month-list {
+        /* position: absolute; */
+        height: 100% !important;
+        /* top: 0; */
+        /* left: 0; */
+        background-color: var(--bg-main) !important;
+        padding: 20px !important;
+        grid-template-columns: repeat(3, auto) !important;
+        gap: 10px !important;
+        display: grid !important;
+        /* // font-size: 1rem; */
+        width: 100% !important;
+        /* transform: scale(1.5);
+      visibility: hidden;
+      pointer-events: none; */
+      }
+
+      .month-list.show {
+        transform: scale(1) !important;
+        visibility: visible !important;
+        pointer-events: visible !important;
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .month-list > div {
+        display: grid !important;
+        place-items: center !important;
+      }
+
+      .month-list > div > div {
+        width: 100% !important;
+        padding: 5px 20px !important;
+        border-radius: 10px !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        color: var(--color-txt) !important;
+      }
+
+      .month-list > div > div:hover {
+        background-color: var(--color-hover) !important;
+      }
+
+      .month-list .month-element {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        color: var(--color-txt) !important;
+        height: 60px !important;
+        cursor: pointer !important;
+        font-size: 1.5rem !important;
+      }
+
+      .year-list .year-element {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        color: var(--color-txt) !important;
+        height: 60px !important;
+        cursor: pointer !important;
+        font-size: 1.5rem !important;
+      }
+
+      @keyframes to-top {
+        0% {
+          transform: translateY(100%) !important;
+          opacity: 0 !important;
+        }
+        100% {
+          transform: translateY(0) !important;
+          opacity: 1 !important;
+        }
+      }
+
+      .year-container {
+        position: relative !important;
+        background: none !important;
+      }
+    `,
+  ],
 })
 export class CalendarYearlyComponent implements OnInit {
   formHeader: FormGroup;
