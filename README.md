@@ -33,15 +33,15 @@ export class AppModule {}
 2. In your component template, use the `ngx-angular-date-range-picker` component:
 
 ```html
-<date-range-picker [row]="row" [control]="date"></date-range-picker>
+<date-range-picker [props]="calendar" [control]="date"></date-range-picker>
 ```
 
-3. In your component TypeScript file, configure the `DataInterface` and the `FormControl`:
+3. In your component TypeScript file, configure the `calendarType` and the `FormControl`:
 
 ```typescript
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DataInterface } from 'ngx-angular-date-range-picker';
+import { calendarType } from 'ngx-angular-date-range-picker';
 
 @Component({
   selector: 'app-root',
@@ -51,7 +51,7 @@ import { DataInterface } from 'ngx-angular-date-range-picker';
 export class AppComponent {
   date = new FormControl();
 
-  row: DataInterface = {
+  calendar: calendarType = {
     type: 'day',
     date: new Date(),
     containDarkMode: true,
@@ -63,6 +63,67 @@ export class AppComponent {
   };
 }
 ```
+
+##Options
+<table>
+  <tr>
+    <th>Option</th>
+    <th>Type</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>string</td>
+    <td>day</td>
+    <td>Specifies the type of date range picker to be displayed. Possible values are <code>day</code>, <code>month</code>, and <code>year</code>.</td>
+  </tr>
+  <tr>
+    <td>date</td>
+    <td>Date</td>
+    <td>new Date()</td>
+    <td>Specifies the date to be displayed in the date range picker.</td>
+  </tr>
+  <tr>
+    <td>containDarkMode</td>
+    <td>boolean</td>
+    <td>false</td>
+    <td>Specifies whether the date range picker should be displayed in dark mode.</td>
+  </tr>
+  <tr>
+    <td>locale</td>
+    <td>string</td>
+    <td>en</td>
+    <td>Specifies the locale to be used for formatting the date range picker. Possible values are <code>en</code> and <code>pt</code>.</td>
+  </tr>
+  <tr>
+    <td>backgroundColorPrimary</td>
+    <td>string</td>
+    <td>#F1BF98</td>
+    <td>Specifies the primary background color of the date range picker.</td>
+  </tr>
+  <tr>
+    <td>backgroundColorSecondary</td>
+    <td>string</td>
+    <td>#FDF4ED</td>
+    <td>Specifies the secondary background color of the date range picker.</td>
+  </tr>
+  <tr>
+    <td>maxDate</td>
+    <td>Date</td>
+    <td>new Date()</td>
+    <td>Specifies the maximum date that can be selected in the date range picker.</td>
+  </tr>
+  <tr>
+    <td>minDate</td>
+    <td>Date</td>
+    <td>new Date()</td>
+    <td>Specifies the minimum date that can be selected in the date range picker.</td>
+  </tr>
+</table>
+
+## Demo
+
 
 ## Features
 
@@ -82,6 +143,7 @@ Contributions are welcome! Feel free to open issues or pull requests on the [Git
 
 ## Author
 
+- GitHub: [@JordaoNhanga15](https://github.com/JordaoNhanga15)
 - LinkedIn: [Jordão de Oliveira](https://www.linkedin.com/in/jordao-de-oliveira/)
 
 ## License
