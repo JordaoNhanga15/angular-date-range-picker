@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { DataInterface } from "./core/interfaces/DataInterface";
+import { calendarType } from "./core/interfaces/DataInterface";
 import { LibService } from "./lib.service";
 import { MessagesInterface } from "./core/interfaces/MessagesInterface";
 
@@ -27,10 +27,10 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
       </div>
 
       <div class="calendar" id="calendar-lib">
-        <ng-container [ngSwitch]="row.type">
+        <ng-container [ngSwitch]="props.type">
           <ng-container *ngSwitchCase="'day'">
             <lib-calendar-daily
-              [row]="row"
+              [row]="props"
               [format]="format"
               [messages]="translate"
               (dateRange)="onDateRangeChange($event)"
@@ -38,7 +38,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
           </ng-container>
           <ng-container *ngSwitchCase="'month'">
             <lib-calendar-monthly
-              [row]="row"
+              [row]="props"
               [format]="format"
               [messages]="translate"
               (dateRange)="onDateRangeChange($event)"
@@ -46,7 +46,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
           </ng-container>
           <ng-container *ngSwitchCase="'year'">
             <lib-calendar-yearly
-              [row]="row"
+              [row]="props"
               [format]="format"
               [messages]="translate"
               (dateRange)="onDateRangeChange($event)"
@@ -78,8 +78,19 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         --theme-primary-accent: #cbe8ff !important;
       }
 
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css');
+      @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+
+
       /deep/ .calendar-lib {
         max-height: 100% !important;
+      }
+
+      /deep/ .calendar{
+        position: absolute;
+        z-index: 150000 !important;
+        box-sizing: border-box;
+        top: 100% !important;
       }
 
       /deep/ .dark {
@@ -93,6 +104,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         box-shadow: var(--shadow) !important;
         --c-theme-primary: #008ffd !important;
         --c-theme-primary-accent: #cbe8ff !important;
+        position: relative !important;
       }
 
       /deep/ .light {
@@ -106,6 +118,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         --color-txt-inverse: var(--dark-text) !important;
         --c-theme-primary: #008ffd !important;
         --c-theme-primary-accent: #cbe8ff !important;
+        position: relative !important;
       }
 
       /deep/ .selected {
@@ -127,7 +140,6 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
       }
 
       /deep/ .calendar-complete{
-        // display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
         height: 100% !important;
@@ -152,7 +164,6 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         font-size: 20px !important;
         align-items: center !important;
         justify-content: center !important;
-        // background: #e9e5ff !important;
         color: #f34969; !important;
         border: 1px solid #f34969 !important;
         opacity: 0.9 !important;
@@ -163,7 +174,6 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
 
       /deep/ .calendar-footer .trash-link-button:hover {
         opacity: 1 !important;
-        // background: #f34969 !important;
       }
 
       /deep/ .w-100{
@@ -237,7 +247,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
   ],
 })
 export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
-  @Input() row: DataInterface;
+  @Input() props: calendarType;
   @Input() format: string;
   @Input() control: FormControl = new FormControl();
   translate: MessagesInterface;
@@ -258,35 +268,35 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   }
 
   private validateColor(): void {
-    if (this.row.backgroundColorPrimary) {
+    if (this.props.backgroundColorPrimary) {
       const isValid = this.libService.isValidColor(
-        this.row.backgroundColorPrimary,
+        this.props.backgroundColorPrimary,
         "range-lib"
       );
 
       if (!isValid) return;
 
-      this.setCustomProperty(this.row.backgroundColorPrimary, "range-lib");
+      this.setCustomProperty(this.props.backgroundColorPrimary, "range-lib");
     }
 
-    if (this.row.backgroundColorSecondary) {
+    if (this.props.backgroundColorSecondary) {
       const isValid = this.libService.isValidColor(
-        this.row.backgroundColorSecondary,
+        this.props.backgroundColorSecondary,
         "range-lib-interval"
       );
 
       if (!isValid) return;
 
       this.setCustomProperty(
-        this.row.backgroundColorSecondary,
+        this.props.backgroundColorSecondary,
         "range-lib-interval"
       );
     }
   }
 
   customTranslate() {
-    if (this.row.locale) {
-      this.translate = this.libService.fetchMessages(this.row.locale);
+    if (this.props.locale) {
+      this.translate = this.libService.fetchMessages(this.props.locale);
     }
   }
 
@@ -296,10 +306,6 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
-
-  // get translate(): MessagesInterface {
-  //   return this.libService.fetchMessages(this.row.locale);
-  // }
 
   eventCalendar() {
     const calendarLib = document.querySelector("#calendar-lib") as HTMLElement;

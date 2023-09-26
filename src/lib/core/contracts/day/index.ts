@@ -1,13 +1,13 @@
 import { transformPipeInDate, isAfter } from '../../../shared/utils/formatDate';
 import { calendarDays } from '../../../shared/utils/months';
 import { FormControlInterface } from '../../interfaces/FormControlInterface';
-import { DataInterface } from '../../interfaces/DataInterface';
+import { calendarType } from '../../interfaces/DataInterface';
 
 export class Contract {
   public static default(
     data: any,
     form: FormControlInterface,
-    DataInterface: DataInterface
+    DataInterface: calendarType
   ) {
     const { secondDate, firstDate, monthIndex, year } = form as any;
     const { day, month } = data;

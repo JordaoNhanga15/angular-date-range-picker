@@ -1,10 +1,10 @@
-import { DataInterface } from '../../interfaces/DataInterface';
+import { calendarType } from '../../interfaces/DataInterface';
 import { FormControlInterface } from '../../interfaces/FormControlInterface';
 export class Contract {
   public static default(
     data: any,
     form: FormControlInterface,
-    DataInterface: DataInterface
+    DataInterface: calendarType
   ) {
     const { year: element } = data as any;
     const { secondDate, firstDate } = form;

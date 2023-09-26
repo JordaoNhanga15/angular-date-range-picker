@@ -1,5 +1,5 @@
 import { DateModel, TypeContract } from '../../shared/models/date.model';
-import { DataInterface } from '../interfaces/DataInterface';
+import { calendarType } from '../interfaces/DataInterface';
 import { FormControlInterface } from '../interfaces/FormControlInterface';
 import * as contractsByType from './contracts';
 import { ContractInterface } from '../interfaces/ContractInterface';
@@ -11,8 +11,8 @@ const contracts = {
 };
 
 export class DateContract {
-  private contract: DataInterface;
-  constructor(contractType: DataInterface) {
+  private contract: calendarType;
+  constructor(contractType: calendarType) {
     this.contract = contractType;
   }
 

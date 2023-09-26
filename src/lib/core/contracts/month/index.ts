@@ -1,17 +1,16 @@
 import {
   formatDate,
   isAfter,
-  splitDate,
 } from '../../../shared/utils/formatDate';
 import { monthsNames, calendarHeader } from '../../../shared/utils/months';
 import { FormControlInterface } from '../../interfaces/FormControlInterface';
-import { DataInterface } from '../../interfaces/DataInterface';
+import { calendarType } from '../../interfaces/DataInterface';
 
 export class Contract {
   public static default(
     data: any,
     form: FormControlInterface,
-    DataInterface: DataInterface
+    DataInterface: calendarType
   ) {
     const { secondDate, firstDate } = form;
     const { month: innerMonth } = data as any;

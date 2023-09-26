@@ -1,16 +1,13 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateRangeComponent } from './lib.component';
 import { CalendarDailyComponent } from './resources/components/calendar-daily/calendar-daily.component';
 import { CalendarMonthlyComponent } from './resources/components/calendar-monthly/calendar-monthly.component';
 import { CalendarYearlyComponent } from './resources/components/calendar-yearly/calendar-yearly.component';
-import { DataInterface } from './core/interfaces/DataInterface';
+import { calendarType } from './core/interfaces/DataInterface';
 import { CommonModule } from '@angular/common';
-
-export function HttpLoaderFactory(http: HttpClient) {
-}
+import { SharedModule } from './shared/components/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,14 +17,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     CalendarYearlyComponent,
   ],
   imports: [
-    // BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   exports: [DateRangeComponent],
-  providers: [{ provide: LOCALE_ID, useValue: 'en-US' }],
 })
 export class DateRangePickerModule {}
-export { DataInterface };
+export { calendarType };

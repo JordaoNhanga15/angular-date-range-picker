@@ -1,11 +1,11 @@
 import { DateModel } from '../../shared/models/date.model';
 import { FormControlInterface } from './FormControlInterface';
-import { DataInterface } from './DataInterface';
+import { calendarType } from './DataInterface';
 
 export interface ContractInterface {
   default(
     data: DateModel,
     form: FormControlInterface,
-    DataInterface: DataInterface
+    DataInterface: calendarType
   ): any;
 }
