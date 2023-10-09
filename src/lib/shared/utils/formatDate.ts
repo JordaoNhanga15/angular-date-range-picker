@@ -1,5 +1,9 @@
 import { calendarType } from "../../core/interfaces/DataInterface";
-import { detectDateFormats } from "./detectDateFormats";
+import {
+  detectDateFormats,
+  countryCodes,
+  countriesWithDifferentDateFormat,
+} from "./detectDateFormats";
 import { PaginationEnum, PaginationYearEnum } from "../models/strategy.model";
 import { FormControlInterface } from "../../core/interfaces/FormControlInterface";
 
@@ -32,7 +36,9 @@ export const transformPipeInDate = (
 export const splitDate = (date: string, contract: calendarType): string[] => {
   if (!date) return [];
 
-  let formattedString = date.replace(/\./g, "/");
+  let formattedString = date.replace(/[.-]/g, "/");
+
+  const locale = contract.locale.toLowerCase();
 
   if (!formattedString) return [];
 
@@ -41,6 +47,17 @@ export const splitDate = (date: string, contract: calendarType): string[] => {
       if (!formattedString) return [];
 
       const wasDetected = detectDateFormats(formattedString);
+
+      const isDifferentFormat2 =
+        countriesWithDifferentDateFormat.includes(locale);
+
+      if (isDifferentFormat2) {
+        const splited = formattedString.split("/");
+
+        const [year, month] = splited;
+
+        return [month, year];
+      }
 
       if (wasDetected.length) {
         const reverse = wasDetected.reverse();
@@ -65,7 +82,20 @@ export const splitDate = (date: string, contract: calendarType): string[] => {
 
       const wasDetected = detectDateFormats(formattedString);
 
-      if (wasDetected.length) {
+      const isDifferentFormat = countryCodes.includes(locale);
+
+      const isDifferentFormat2 =
+        countriesWithDifferentDateFormat.includes(locale);
+
+      if (isDifferentFormat2) {
+        const splited = formattedString.split("/");
+
+        const [year, month, day] = splited;
+
+        return [month, day, year];
+      }
+
+      if (wasDetected.length && !isDifferentFormat) {
         const reverse = wasDetected.reverse();
 
         formattedString = reverse.toString();
@@ -111,13 +141,13 @@ export const splitDate = (date: string, contract: calendarType): string[] => {
 
 export const handleCalendarYearBuildForm = (
   type: string,
-  yearClick: Function,
+  callback: Function,
   years: number[],
   calendar: HTMLElement,
   form: FormControlInterface,
   row: calendarType,
-  yearClass?: Function,
-) => {
+  yearClass?: Function
+): void => {
   if (!type) return;
 
   const yearArray = calendar.querySelector("#year-array") as HTMLElement;
@@ -151,25 +181,23 @@ export const handleCalendarYearBuildForm = (
 
       yearsAbove.forEach((e, index) => {
         let year = document.createElement("div");
-        year.innerHTML = `<div data-year="${e}" class="year-element ${yearClass ? yearClass(
-          e,
-          form,
-          row
-        ): ''}">${e}</div>`;
+        year.innerHTML = `<div data-year="${e}" class="year-element ${
+          yearClass ? yearClass(e, form, row) : ""
+        }">${e}</div>`;
 
         yearList.appendChild(year);
       });
 
-      (calendar
-        .querySelectorAll(".year-element") as NodeListOf<HTMLDivElement>)
-        .forEach((element: HTMLDivElement) => {
-          element.addEventListener("click", (ele: Event) =>
-            yearClick(ele.target as HTMLDivElement)
-          );
-        });
+      (
+        calendar.querySelectorAll(".year-element") as NodeListOf<HTMLDivElement>
+      ).forEach((element: HTMLDivElement) => {
+        element.addEventListener("click", (ele: Event) =>
+          callback(ele.target as HTMLDivElement)
+        );
+      });
     },
     nextPagination: () => {
-      let y = Number(lastYear)
+      let y = Number(lastYear);
 
       if (!y) y = new Date().getFullYear();
 
@@ -184,22 +212,36 @@ export const handleCalendarYearBuildForm = (
 
       yearsAbove.forEach((e, index) => {
         let year = document.createElement("div");
-        year.innerHTML = `<div data-year="${e}" class="year-element ${yearClass ? yearClass(
-          e,
-          form,
-          row
-        ): ''}">${e}</div>`;
+        year.innerHTML = `<div data-year="${e}" class="year-element ${
+          yearClass ? yearClass(e, form, row) : ""
+        }">${e}</div>`;
 
         yearList.appendChild(year);
       });
 
-      (calendar
-        .querySelectorAll(".year-element") as NodeListOf<HTMLDivElement>)
-        .forEach((element: HTMLDivElement) => {
-          element.addEventListener("click", (ele: Event) =>
-            yearClick(ele.target as HTMLDivElement)
-          );
-        });
+      (
+        calendar.querySelectorAll(".year-element") as NodeListOf<HTMLDivElement>
+      ).forEach((element: HTMLDivElement) => {
+        element.addEventListener("click", (ele: Event) =>
+          callback(ele.target as HTMLDivElement)
+        );
+      });
     },
   }[type as keyof PaginationEnum]();
+};
+
+export const handleCalendarMonthBuildForm = (
+  type: string,
+  callback: Function
+) => {
+  if (!type) return;
+
+  return {
+    prevYear: () => {
+      callback(type);
+    },
+    nextYear: () => {
+      callback(type);
+    },
+  }[type as keyof PaginationYearEnum]();
 };

@@ -20,10 +20,7 @@
     "resolveJsonModule": false,
   },
   "exclude": [
-    // "node_modules",
     "src/test.ts",
     "**/*.spec.ts",
-    // "**/*.d.ts",
-    // "**/*.stub.ts"
   ]
 }

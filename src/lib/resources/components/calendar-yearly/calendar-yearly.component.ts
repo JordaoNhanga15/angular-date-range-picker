@@ -18,42 +18,7 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 @Component({
   selector: "lib-calendar-yearly",
   template: `
-    <div class="year-container show">
-      <div class="year-pickers calendar-header">
-        <span
-          class="year-change"
-          id="prev-pagination"
-          (click)="
-            handleCalendarNormalize(
-              'prevPagination',
-              handleYearClick,
-              years,
-              calendar,
-              handleYearClass
-            )
-          "
-        >
-          <div><</div>
-        </span>
-        <span id="year-array">2021 - 2028</span>
-        <span
-          class="year-change"
-          id="next-pagination"
-          (click)="
-            handleCalendarNormalize(
-              'nextPagination',
-              handleYearClick,
-              years,
-              calendar,
-              handleYearClass
-            )
-          "
-        >
-          <div>></div>
-        </span>
-      </div>
-      <div class="year-list"></div>
-    </div>
+    <calendar-year (click)="eventYearClick($event)" [row]="row"></calendar-year>
 
     <calendar-footer
       [messages]="messages"
@@ -80,8 +45,10 @@ export class CalendarYearlyComponent implements OnInit {
   }> = new EventEmitter();
   dateContract: DateContract;
 
-  constructor(private fb: FormBuilder, private date: DateService) {
+  constructor(private fb: FormBuilder) {
     this.dateContract = new DateContract(this.row);
+    this.handleCalendarNormalize = this.handleCalendarNormalize.bind(this);
+    this.handleYearClick = this.handleYearClick.bind(this);
   }
 
   ngOnInit(): void {
@@ -107,7 +74,7 @@ export class CalendarYearlyComponent implements OnInit {
     });
   }
 
-  handleYearClick(element: HTMLDivElement) {
+  public handleYearClick(element: HTMLDivElement) {
     if (!element) return;
 
     const years = document.querySelectorAll(
@@ -180,15 +147,15 @@ export class CalendarYearlyComponent implements OnInit {
     return document.querySelector(".calendar");
   }
 
-  protected get calendarYears(): any {
+  get calendarYears(): any {
     return document.querySelectorAll(".year-element");
   }
 
-  protected get monthElement(): any {
+  get monthElement(): any {
     return document.querySelector(".month-container");
   }
 
-  protected get yearElement(): any {
+  get yearElement(): any {
     return document.querySelector(".year-container");
   }
 
@@ -199,16 +166,16 @@ export class CalendarYearlyComponent implements OnInit {
     );
   }
 
-  protected get f(): FormControlInterface {
+  get f(): FormControlInterface {
     return this.formHeader.controls as FormControlInterface;
   }
 
-  protected get calendarHeaderYear(): number {
+  get calendarHeaderYear(): number {
     if (!this.calendarHeader) return 0;
     return Number(this.calendarHeader.innerHTML);
   }
 
-  protected get calendarHeader(): HTMLElement {
+  get calendarHeader(): HTMLElement {
     return this.calendar.querySelector("#year-picker");
   }
 
@@ -216,6 +183,20 @@ export class CalendarYearlyComponent implements OnInit {
     this.f.firstDate.setValue(null);
     this.f.secondDate.setValue(null);
     this.f.dateRange.setValue(null);
+  }
+
+  eventYearClick(event: string) {
+    if (!event) return;
+
+    if("string" !== typeof event) return;
+
+    this.handleCalendarNormalize(
+      event,
+      this.handleYearClick,
+      this.years,
+      this.calendar,
+      this.handleYearClass
+    );
   }
 
   handleCalendarNormalize(

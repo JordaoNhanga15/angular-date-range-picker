@@ -5,6 +5,9 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  ElementRef,
+  HostListener,
+  ViewChild,
 } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { calendarType } from "./core/interfaces/DataInterface";
@@ -14,7 +17,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
 @Component({
   selector: "date-range-picker",
   template: `
-    <aside class="light">
+    <aside class="light" #dateInputDiv>
       <div class="date-input" (click)="eventCalendar()">
         <input
           type="text"
@@ -26,7 +29,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         <i class="fa fa-calendar"></i>
       </div>
 
-      <div class="calendar" id="calendar-lib">
+      <div class="calendar" id="calendar-lib" *ngIf="manifest">
         <ng-container [ngSwitch]="props.type">
           <ng-container *ngSwitchCase="'day'">
             <lib-calendar-daily
@@ -251,6 +254,8 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   @Input() format: string;
   @Input() control: FormControl = new FormControl();
   translate: MessagesInterface;
+  manifest: any;
+  @ViewChild("dateInputDiv") dateInputDiv: ElementRef;
   constructor(private libService: LibService) {}
 
   onDateRangeChange(date: { dateRange: Date }) {
@@ -260,11 +265,23 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     this.control.setValue(date);
   }
 
-  ngOnInit(): void {}
+  @HostListener("document:click", ["$event"])
+  onClickOutside(event: Event) {
+    if (!this.dateInputDiv.nativeElement.contains(event.target as Node)) {
+      this.eventCalendar(true);
+    }
+  }
+
+  ngOnInit(): void {
+    this.libService.loadGist().subscribe((res) => {
+      this.manifest = res;
+      this.customTranslate(res);
+    });
+  }
 
   ngDoCheck(): void {
     this.validateColor();
-    this.customTranslate();
+    this.customTranslate(this.manifest);
   }
 
   private validateColor(): void {
@@ -294,9 +311,12 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
-  customTranslate() {
+  customTranslate(locale: any) {
     if (this.props.locale) {
-      this.translate = this.libService.fetchMessages(this.props.locale);
+      this.translate = this.libService.fetchMessages(
+        this.props.locale.toLowerCase(),
+        locale
+      );
     }
   }
 
@@ -307,8 +327,13 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
 
   ngOnChanges(changes: SimpleChanges): void {}
 
-  eventCalendar() {
+  eventCalendar(toClose?: boolean) {
     const calendarLib = document.querySelector("#calendar-lib") as HTMLElement;
+
+    if (toClose) {
+      calendarLib.classList.remove("show");
+      return;
+    }
 
     switch (calendarLib.classList.contains("show")) {
       case true:

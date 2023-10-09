@@ -11,10 +11,6 @@ export const manifest = {
     "dark": "Mode sombre",
     "placeholder": "Entrez une plage de dates"
   },
-  "zh": {
-    "dark": "黑暗模式",
-    "placeholder": "输入日期范围"
-  },
   "en": {
     "dark": "Dark mode",
     "placeholder": "Enter a date range"
@@ -47,9 +43,21 @@ export const manifest = {
     "dark": "Donkere modus",
     "placeholder": "Voer een datumbereik in"
   },
+  "do": {
+    "dark": "Modo oscuro",
+    "placeholder": "Ingrese un rango de fechas"
+  },
   "pl": {
     "dark": "Tryb ciemny",
     "placeholder": "Wprowadź zakres dat"
+  },
+  "ph": {
+    "dark": "Madilim na mode",
+    "placeholder": "Ipasok ang isang date range"
+  },
+  "pr": {
+    "dark": "Modo escuro",
+    "placeholder": "Insira um intervalo de datas"
   },
   "sv": {
     "dark": "Mörkt läge",
@@ -78,6 +86,10 @@ export const manifest = {
   "th": {
     "dark": "โหมดมืด",
     "placeholder": "ป้อนช่วงวันที่"
+  },
+  "us": {
+    "dark": "Dark mode",
+    "placeholder": "Enter a date range"
   },
   "vi": {
     "dark": "Chế độ tối",
@@ -186,6 +198,10 @@ export const manifest = {
   "km": {
     "dark": "រចនាប័ទ្មច្រើនដែលខ្លី",
     "placeholder": "បញ្ចូលចន្លោះកាលបរិច្ឆេទ"
+  },
+  "ni":{
+    "dark": "Modo oscuro",
+    "placeholder": "Ingrese un rango de fechas"
   },
   "lo": {
     "dark": "ໂປຣໂມຊັນ",

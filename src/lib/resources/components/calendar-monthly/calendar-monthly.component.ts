@@ -13,96 +13,30 @@ import {
   Validators,
 } from "@angular/forms";
 import { DateContract } from "../../../core/contracts/index";
-import {
-  PaginationEnum,
-  PaginationYearEnum,
-} from "../../../shared/models/strategy.model";
 import { DateService } from "../../../core/services/date.service";
 import { calendarType } from "../../../core/interfaces/DataInterface";
 import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
 import {
   isBefore,
-  splitDate,
+  handleCalendarMonthBuildForm,
   handleCalendarYearBuildForm,
 } from "../../../shared/utils/formatDate";
 import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
+import { isInvalid } from "../../../shared/utils/detectDateFormats";
 
 @Component({
   selector: "lib-calendar-monthly",
   template: `
-    <div class="month-containers show">
-      <div
-        class="d-flex align-items-center justify-content-between w-100 event-hover"
-      >
-        <span
-          class="year-change font-weight-600 font-size-25 text-color"
-          id="prev-year"
-          (click)="handleCalendarBuildForm('prevYear')"
-        >
-          <div><</div>
-        </span>
-        <div
-          class="year-picker month-picker calendar-header"
-          id="year-picker"
-          (click)="eventYearClick()"
-        >
-          {{ f.year.value }}
-        </div>
+    <calendar-month
+      [row]="row"
+      [f]="f"
+      [monthNames]="monthNames"
+      (pagination)="pagination($event)"
+      (monthClick)="eventMonthClick($event)"
+      (yearClick)="eventYearClick()"
+    ></calendar-month>
 
-        <span
-          class="year-change font-weight-600 font-size-25 text-color"
-          id="next-pagination"
-          (click)="handleCalendarBuildForm('nextYear')"
-        >
-          <div>></div>
-        </span>
-      </div>
-      <div class="month-list">
-        <div
-          class="month-element"
-          *ngFor="let item of monthNames; let i = index"
-          [ngClass]="handleMonthClass(i)"
-          (click)="eventMonthClick(i)"
-        >
-          {{ item }}
-        </div>
-      </div>
-    </div>
-
-    <div class="year-container">
-      <div class="year-pickers calendar-header">
-        <span
-          class="year-change"
-          id="prev-pagination"
-          (click)="
-            handleCalendarNormalize(
-              'prevPagination',
-              handleYearClick,
-              years,
-              calendar
-            )
-          "
-        >
-          <div><</div>
-        </span>
-        <span id="year-array">2021 - 2028</span>
-        <span
-          class="year-change"
-          id="next-pagination"
-          (click)="
-            handleCalendarNormalize(
-              'nextPagination',
-              handleYearClick,
-              years,
-              calendar
-            )
-          "
-        >
-          <div>></div>
-        </span>
-      </div>
-      <div class="year-list"></div>
-    </div>
+    <calendar-year (click)="eventYear($event)" [row]="row"></calendar-year>
 
     <calendar-footer
       [messages]="messages"
@@ -133,6 +67,9 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
   constructor(private fb: FormBuilder, private date: DateService) {
     this.dateContract = new DateContract(this.row);
+    this.handleCalendarNormalize = this.handleCalendarNormalize.bind(this);
+    this.handleYearClick = this.handleYearClick.bind(this);
+    this.handleCalendarMonth = this.handleCalendarMonth.bind(this);
   }
 
   ngOnInit(): void {
@@ -213,6 +150,19 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     return this.calendar.querySelector("#year-picker");
   }
 
+  eventYear(event: string) {
+    if (!event) return;
+
+    if ("string" !== typeof event) return;
+
+    this.handleCalendarNormalize(
+      event,
+      this.handleYearClick,
+      this.years,
+      this.calendar
+    );
+  }
+
   handleCalendarNormalize(
     type: string,
     yearClick: Function,
@@ -281,16 +231,22 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   handleCalendarBuildForm(type: string): any {
     if (!type) return;
 
-    return {
-      prevYear: () => {
-        const year = this.formHeader.controls.year.value - 1;
-        this.formHeader.controls.year.setValue(year);
-      },
-      nextYear: () => {
-        const year = this.formHeader.controls.year.value + 1;
-        this.formHeader.controls.year.setValue(year);
-      },
-    }[type as keyof PaginationYearEnum]();
+    handleCalendarMonthBuildForm(type, this.handleCalendarMonth);
+  }
+
+  handleCalendarMonth(type: string) {
+    if (!type) return;
+
+    const operationArithmetic = type == "prevYear" ? -1 : +1;
+
+    const year = this.formHeader.controls.year.value + operationArithmetic;
+    this.formHeader.controls.year.setValue(year);
+  }
+
+  pagination(type: string) {
+    if (!isInvalid(type)) return;
+
+    this.handleCalendarBuildForm(type);
   }
 
   eventYearClick() {
@@ -353,81 +309,6 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     this.monthElement.classList.add("show");
 
     this.calendar.querySelector(".year-list").innerHTML = "";
-  }
-
-  handleMonthClass(month: number): string {
-    const { dateRange, monthIndex, year } = this.f;
-
-    const innerMonth = month + 1;
-
-    const { maxDate, minDate } = this.row;
-
-    if (maxDate) {
-      const dateAfter = new Date(year.value, innerMonth, 1);
-
-      const isAfterMaxDate = isBefore(maxDate, dateAfter);
-
-      if (isAfterMaxDate) return "isDisabled";
-    }
-
-    if (minDate) {
-      const dateBefore = new Date(year.value, innerMonth, 1);
-
-      const isBeforeMinDate = isBefore(dateBefore, minDate);
-
-      if (isBeforeMinDate) return "isDisabled";
-    }
-
-    if (!dateRange.value) return "";
-
-    const value = dateRange.value as String;
-
-    const [firstDate, secondDate] = value.split(" - ");
-
-    const [firstDateMonth, firstDateYear] = splitDate(firstDate, this.row);
-
-    if (!firstDateMonth || !firstDateYear) return "";
-
-    const isTheSameMonth = Number(firstDateMonth) == innerMonth;
-
-    const isTheSameYear = Number(firstDateYear) == this.calendarHeaderYear;
-
-    const isTheSameDate = isTheSameMonth && isTheSameYear;
-
-    if (isTheSameDate) return "selected";
-
-    if (!secondDate) return "";
-
-    const [secondDateMonth, secondDateYear] = splitDate(secondDate, this.row);
-
-    if (!secondDateMonth || !secondDateYear) return "";
-
-    const isTheSameMonthSecondDate = Number(secondDateMonth) == innerMonth;
-
-    const isTheSameYearSecondDate =
-      Number(secondDateYear) === this.calendarHeaderYear;
-
-    const isTheSameDateSecondDate =
-      isTheSameMonthSecondDate && isTheSameYearSecondDate;
-
-    if (secondDate && isTheSameDateSecondDate) return "selected";
-
-    const parseDayInnerText = this.date.transformPipeInDate(
-      Number(1),
-      monthIndex.value - 1,
-      this.calendarHeaderYear
-    );
-
-    if (!parseDayInnerText) return "";
-
-    const isWithinTheRange =
-      Number(innerMonth) < Number(secondDateMonth) &&
-      innerMonth > Number(firstDateMonth) &&
-      isTheSameYear;
-
-    if (isWithinTheRange) return "interval";
-
-    return "";
   }
 
   private resetControls() {
