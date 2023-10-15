@@ -188,7 +188,7 @@ export class CalendarYearlyComponent implements OnInit {
   eventYearClick(event: string) {
     if (!event) return;
 
-    if("string" !== typeof event) return;
+    if ("string" !== typeof event) return;
 
     this.handleCalendarNormalize(
       event,
@@ -229,7 +229,7 @@ export class CalendarYearlyComponent implements OnInit {
     this.calendar.querySelector("#year-array").innerHTML =
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
-    yearsAbove.forEach((e, index) => {
+    yearsAbove.forEach((e) => {
       let year = document.createElement("div");
       year.innerHTML = `<div data-year="${e}" class="year-element ${this.handleYearClass(
         e,

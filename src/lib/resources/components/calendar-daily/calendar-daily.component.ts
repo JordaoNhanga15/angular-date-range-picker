@@ -91,7 +91,7 @@ import {
       }
 
       @media screen and (max-width: 420px) {
-        /deep/ .year-picker{
+        /deep/ .year-picker {
           display: none !important;
         }
       }
@@ -540,7 +540,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     this.monthElement.classList.add("show");
     this.monthElement.style.display = "flex !important";
 
-    this.calendar.querySelector(".year-list").innerHTML = "";
+    // this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   handleMonthClick(element: number) {
@@ -602,7 +602,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   get yearElement(): any {
-    return document.querySelector(".year-container");
+    return document.querySelector("#year-container");
   }
 
   get years() {

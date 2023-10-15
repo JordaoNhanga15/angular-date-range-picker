@@ -308,7 +308,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
     this.yearElement.classList.remove("show");
     this.monthElement.classList.add("show");
 
-    this.calendar.querySelector(".year-list").innerHTML = "";
+    // this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   private resetControls() {

@@ -4,7 +4,11 @@ import { calendarType } from "../../../core/interfaces/DataInterface";
 @Component({
   selector: "calendar-year",
   template: `
-    <div class="year-container" [ngClass]="{ show: isYearly }">
+    <div
+      class="year-container"
+      id="year-container"
+      [ngClass]="{ show: isYearly }"
+    >
       <div class="year-pickers calendar-header">
         <span
           class="year-change"
