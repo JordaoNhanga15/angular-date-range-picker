@@ -13,6 +13,7 @@ import { FormControl } from "@angular/forms";
 import { calendarType } from "./core/interfaces/DataInterface";
 import { LibService } from "./lib.service";
 import { MessagesInterface } from "./core/interfaces/MessagesInterface";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "date-range-picker",
@@ -22,41 +23,52 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         <input
           type="text"
           id="date"
-          [placeholder]="translate.placeholder"
+          [placeholder]="translate?.placeholder || 'loading...'"
           readonly
           [value]="control.value"
         />
         <i class="fa fa-calendar"></i>
       </div>
 
-      <div class="calendar" id="calendar-lib" *ngIf="manifest">
-        <ng-container [ngSwitch]="props.type">
-          <ng-container *ngSwitchCase="'day'">
-            <lib-calendar-daily
-              [row]="props"
-              [format]="format"
-              [messages]="translate"
-              (dateRange)="onDateRangeChange($event)"
-            ></lib-calendar-daily>
+      <ng-container *ngIf="loading; else elseTemplate">
+        <div class="calendar" id="calendar-lib">
+          <div class="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="calendar" id="calendar-lib" *ngIf="manifest">
+          <ng-container [ngSwitch]="props.type">
+            <ng-container *ngSwitchCase="'day'">
+              <lib-calendar-daily
+                [row]="props"
+                [format]="format"
+                [messages]="translate"
+                (dateRange)="onDateRangeChange($event)"
+              ></lib-calendar-daily>
+            </ng-container>
+            <ng-container *ngSwitchCase="'month'">
+              <lib-calendar-monthly
+                [row]="props"
+                [format]="format"
+                [messages]="translate"
+                (dateRange)="onDateRangeChange($event)"
+              ></lib-calendar-monthly>
+            </ng-container>
+            <ng-container *ngSwitchCase="'year'">
+              <lib-calendar-yearly
+                [row]="props"
+                [format]="format"
+                [messages]="translate"
+                (dateRange)="onDateRangeChange($event)"
+              ></lib-calendar-yearly>
+            </ng-container>
           </ng-container>
-          <ng-container *ngSwitchCase="'month'">
-            <lib-calendar-monthly
-              [row]="props"
-              [format]="format"
-              [messages]="translate"
-              (dateRange)="onDateRangeChange($event)"
-            ></lib-calendar-monthly>
-          </ng-container>
-          <ng-container *ngSwitchCase="'year'">
-            <lib-calendar-yearly
-              [row]="props"
-              [format]="format"
-              [messages]="translate"
-              (dateRange)="onDateRangeChange($event)"
-            ></lib-calendar-yearly>
-          </ng-container>
-        </ng-container>
-      </div>
+        </div>
+      </ng-template>
     </aside>
   `,
   styleUrls: ["./lib.component.css"],
@@ -255,6 +267,7 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   @Input() control: FormControl = new FormControl();
   translate: MessagesInterface;
   manifest: any;
+  loading: boolean = true;
   @ViewChild("dateInputDiv") dateInputDiv: ElementRef;
   constructor(private libService: LibService) {}
 
@@ -273,10 +286,14 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnInit(): void {
-    this.libService.loadGist().subscribe((res) => {
-      this.manifest = res;
-      this.customTranslate(res);
-    });
+    this.loading = true;
+    this.libService
+      .loadGist()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((res) => {
+        this.manifest = res;
+        this.customTranslate(res);
+      });
   }
 
   ngDoCheck(): void {
