@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { calendarType } from "../../../core/interfaces/DataInterface";
+import { calendarType, Year } from "../../../core/interfaces/DataInterface";
 
 @Component({
   selector: "calendar-year",
@@ -26,7 +26,17 @@ import { calendarType } from "../../../core/interfaces/DataInterface";
           <div>></div>
         </span>
       </div>
-      <div class="year-list"></div>
+      <div class="year-list">
+        <div
+          *ngFor="let year of years"
+          [ngClass]="[year.class]"
+          [attr.year]="year.value"
+          [attr.data-year]="year.value"
+          (click)="handleYearClick($event)"
+        >
+          {{ year.value }}
+        </div>
+      </div>
     </div>
   `,
   styles: [],
@@ -34,12 +44,20 @@ import { calendarType } from "../../../core/interfaces/DataInterface";
 export class CalendarYearComponent implements OnInit {
   @Output() click: EventEmitter<string> = new EventEmitter<any>();
   @Input() row: calendarType;
+  @Input() years: Year[] = [];
+  @Input() yearClick: Function;
   constructor() {}
 
   ngOnInit(): void {}
 
   handleCalendarNormalize(type: string) {
     this.click.emit(type);
+  }
+
+  handleYearClick($event: any) {
+    const year = $event.target;
+    console.log(year);
+    this.yearClick(year);
   }
 
   get isYearly() {

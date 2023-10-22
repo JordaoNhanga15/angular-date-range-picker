@@ -6,8 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { DateContract } from "../../../core/contracts/index";
-import { DateService } from "../../../core/services/date.service";
-import { calendarType } from "../../../core/interfaces/DataInterface";
+import { calendarType, Year } from "../../../core/interfaces/DataInterface";
 import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
 import {
   isBefore,
@@ -18,7 +17,12 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 @Component({
   selector: "lib-calendar-yearly",
   template: `
-    <calendar-year (click)="eventYearClick($event)" [row]="row"></calendar-year>
+    <calendar-year
+      (click)="eventYearClick($event)"
+      [row]="row"
+      [years]="yearsDiv"
+      [yearClick]="handleYearClick"
+    ></calendar-year>
 
     <calendar-footer
       [messages]="messages"
@@ -44,6 +48,7 @@ export class CalendarYearlyComponent implements OnInit {
     dateRange: Date;
   }> = new EventEmitter();
   dateContract: DateContract;
+  yearsDiv: Year[] = [];
 
   constructor(private fb: FormBuilder) {
     this.dateContract = new DateContract(this.row);
@@ -220,33 +225,22 @@ export class CalendarYearlyComponent implements OnInit {
   buildYearList() {
     let y = new Date().getFullYear();
 
-    let yearList = this.calendar.querySelector(".year-list");
+    this.yearsDiv = [];
 
     let yearsAbove = this.years.slice(Number(y), Number(y) + 16);
 
-    yearList.innerHTML = "";
+    // yearList.innerHTML = "";
 
     this.calendar.querySelector("#year-array").innerHTML =
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e) => {
-      let year = document.createElement("div");
-      year.innerHTML = `<div data-year="${e}" class="year-element ${this.handleYearClass(
-        e,
-        this.f,
-        this.row
-      )}" >${e}</div>`;
-
-      yearList.appendChild(year);
+      const annotherClass = this.handleYearClass(e, this.f, this.row);
+      this.yearsDiv.push({
+        value: e,
+        class: `year-element ${annotherClass}`,
+      } as Year);
     });
-
-    this.calendar
-      .querySelectorAll(".year-element")
-      .forEach((element: HTMLDivElement) => {
-        element.addEventListener("click", (ele: Event) =>
-          this.handleYearClick(ele.target as HTMLDivElement)
-        );
-      });
   }
 
   handleYearClass(

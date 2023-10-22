@@ -283,8 +283,11 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
+      const value = String(e);
       let year = document.createElement("div");
-      year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
+      year.classList.add("year-element");
+      year.setAttribute("data-year", value);
+      year.textContent = value;
 
       yearList.appendChild(year);
     });

@@ -1,210 +1,210 @@
 export const manifest = {
-  "de": {
-    "dark": "Dunkelmodus",
-    "placeholder": "Geben Sie einen Datumsbereich ein"
+  de: {
+    dark: "Dunkelmodus",
+    placeholder: "Geben Sie einen Datumsbereich ein",
   },
-  "es": {
-    "dark": "Modo oscuro",
-    "placeholder": "Ingrese un rango de fechas"
+  es: {
+    dark: "Modo oscuro",
+    placeholder: "Ingrese un rango de fechas",
   },
-  "fr": {
-    "dark": "Mode sombre",
-    "placeholder": "Entrez une plage de dates"
+  fr: {
+    dark: "Mode sombre",
+    placeholder: "Entrez une plage de dates",
   },
-  "en": {
-    "dark": "Dark mode",
-    "placeholder": "Enter a date range"
+  zh: {
+    dark: "黑暗模式",
+    placeholder: "输入日期范围",
   },
-  "it": {
-    "dark": "Modalità scura",
-    "placeholder": "Inserisci un intervallo di date"
+  en: {
+    dark: "Dark mode",
+    placeholder: "Enter a date range",
   },
-  "pt": {
-    "dark": "Modo escuro",
-    "placeholder": "Insira um intervalo de datas"
+  it: {
+    dark: "Modalità scura",
+    placeholder: "Inserisci un intervallo di date",
   },
-  "ru": {
-    "dark": "Темный режим",
-    "placeholder": "Введите диапазон дат"
+  pt: {
+    dark: "Modo escuro",
+    placeholder: "Insira um intervalo de datas",
   },
-  "ja": {
-    "dark": "ダークモード",
-    "placeholder": "日付範囲を入力してください"
+  ru: {
+    dark: "Темный режим",
+    placeholder: "Введите диапазон дат",
   },
-  "ko": {
-    "dark": "다크 모드",
-    "placeholder": "날짜 범위를 입력하십시오"
+  ja: {
+    dark: "ダークモード",
+    placeholder: "日付範囲を入力してください",
   },
-  "tr": {
-    "dark": "Karanlık mod",
-    "placeholder": "Bir tarih aralığı girin"
+  ko: {
+    dark: "다크 모드",
+    placeholder: "날짜 범위를 입력하십시오",
   },
-  "nl": {
-    "dark": "Donkere modus",
-    "placeholder": "Voer een datumbereik in"
+  tr: {
+    dark: "Karanlık mod",
+    placeholder: "Bir tarih aralığı girin",
   },
-  "do": {
-    "dark": "Modo oscuro",
-    "placeholder": "Ingrese un rango de fechas"
+  nl: {
+    dark: "Donkere modus",
+    placeholder: "Voer een datumbereik in",
   },
-  "pl": {
-    "dark": "Tryb ciemny",
-    "placeholder": "Wprowadź zakres dat"
+  pl: {
+    dark: "Tryb ciemny",
+    placeholder: "Wprowadź zakres dat",
   },
-  "ph": {
-    "dark": "Madilim na mode",
-    "placeholder": "Ipasok ang isang date range"
+  sv: {
+    dark: "Mörkt läge",
+    placeholder: "Ange ett datumintervall",
   },
-  "pr": {
-    "dark": "Modo escuro",
-    "placeholder": "Insira um intervalo de datas"
+  da: {
+    dark: "Mørk tilstand",
+    placeholder: "Indtast en datointerval",
   },
-  "sv": {
-    "dark": "Mörkt läge",
-    "placeholder": "Ange ett datumintervall"
+  no: {
+    dark: "Mørk modus",
+    placeholder: "Skriv inn et datointervall",
   },
-  "da": {
-    "dark": "Mørk tilstand",
-    "placeholder": "Indtast en datointerval"
+  fi: {
+    dark: "Tumma tila",
+    placeholder: "Anna päivämääräväli",
   },
-  "no": {
-    "dark": "Mørk modus",
-    "placeholder": "Skriv inn et datointervall"
+  id: {
+    dark: "Mode gelap",
+    placeholder: "Masukkan rentang tanggal",
   },
-  "fi": {
-    "dark": "Tumma tila",
-    "placeholder": "Anna päivämääräväli"
+  ms: {
+    dark: "Mod gelap",
+    placeholder: "Masukkan julat tarikh",
   },
-  "id": {
-    "dark": "Mode gelap",
-    "placeholder": "Masukkan rentang tanggal"
+  th: {
+    dark: "โหมดมืด",
+    placeholder: "ป้อนช่วงวันที่",
   },
-  "ms": {
-    "dark": "Mod gelap",
-    "placeholder": "Masukkan julat tarikh"
+  vi: {
+    dark: "Chế độ tối",
+    placeholder: "Nhập phạm vi ngày",
   },
-  "th": {
-    "dark": "โหมดมืด",
-    "placeholder": "ป้อนช่วงวันที่"
+  el: {
+    dark: "Σκοτεινή λειτουργία",
+    placeholder: "Εισαγάγετε ένα εύρος ημερομηνιών",
   },
-  "us": {
-    "dark": "Dark mode",
-    "placeholder": "Enter a date range"
+  bg: {
+    dark: "Тъмен режим",
+    placeholder: "Въведете диапазон на дати",
   },
-  "vi": {
-    "dark": "Chế độ tối",
-    "placeholder": "Nhập phạm vi ngày"
+  uk: {
+    dark: "Темний режим",
+    placeholder: "Введіть діапазон дат",
   },
-  "el": {
-    "dark": "Σκοτεινή λειτουργία",
-    "placeholder": "Εισαγάγετε ένα εύρος ημερομηνιών"
+  ro: {
+    dark: "Mod întunecat",
+    placeholder: "Introduceți un interval de date",
   },
-  "bg": {
-    "dark": "Тъмен режим",
-    "placeholder": "Въведете диапазон на дати"
+  cs: {
+    dark: "Tmavý režim",
+    placeholder: "Zadejte rozsah dat",
   },
-  "uk": {
-    "dark": "Темний режим",
-    "placeholder": "Введіть діапазон дат"
+  hu: {
+    dark: "Sötét mód",
+    placeholder: "Adjon meg egy dátumtartományt",
   },
-  "ro": {
-    "dark": "Mod întunecat",
-    "placeholder": "Introduceți un interval de date"
+  sk: {
+    dark: "Tmavý režim",
+    placeholder: "Zadajte rozsah dátumov",
   },
-  "cs": {
-    "dark": "Tmavý režim",
-    "placeholder": "Zadejte rozsah dat"
+  hi: {
+    dark: "डार्क मोड",
+    placeholder: "एक तारीख सीमा दर्ज करें",
   },
-  "hu": {
-    "dark": "Sötét mód",
-    "placeholder": "Adjon meg egy dátumtartományt"
+  bn: {
+    dark: "ডার্ক মোড",
+    placeholder: "একটি তারিখ রেঞ্জ লিখুন",
   },
-  "sk": {
-    "dark": "Tmavý režim",
-    "placeholder": "Zadajte rozsah dátumov"
+  he: {
+    dark: "מצב כהה",
+    placeholder: "הזן טווח תאריכים",
   },
-  "hi": {
-    "dark": "डार्क मोड",
-    "placeholder": "एक तारीख सीमा दर्ज करें"
+  fa: {
+    dark: "حالت تاریک",
+    placeholder: "یک محدوده تاریخ وارد کنید",
   },
-  "bn": {
-    "dark": "ডার্ক মোড",
-    "placeholder": "একটি তারিখ রেঞ্জ লিখুন"
+  ar: {
+    dark: "الوضع المظلم",
+    placeholder: "أدخل نطاق التاريخ",
   },
-  "he": {
-    "dark": "מצב כהה",
-    "placeholder": "הזן טווח תאריכים"
+  ur: {
+    dark: "ڈارک موڈ",
+    placeholder: "ایک تاریخ کا وقفہ درج کریں",
   },
-  "fa": {
-    "dark": "حالت تاریک",
-    "placeholder": "یک محدوده تاریخ وارد کنید"
+  mr: {
+    dark: "डार्क मोड",
+    placeholder: "एक तारीख रेंज प्रविष्ट करा",
   },
-  "ar": {
-    "dark": "الوضع المظلم",
-    "placeholder": "أدخل نطاق التاريخ"
+  ta: {
+    dark: "இருண்ட முறுமுகம்",
+    placeholder: "ஒரு தேதி வரம்பு உள்ளிடவும்",
   },
-  "ur": {
-    "dark": "ڈارک موڈ",
-    "placeholder": "ایک تاریخ کا وقفہ درج کریں"
+  te: {
+    dark: "డార్క్ మోడ్",
+    placeholder: "ఒక తేదీ వర్గాలు నమోదు చేయండి",
   },
-  "mr": {
-    "dark": "डार्क मोड",
-    "placeholder": "एक तारीख रेंज प्रविष्ट करा"
+  ml: {
+    dark: "ഇരുണ്ട മോഡ്",
+    placeholder: "ഒരു തീയതി ശ്രേണി നൽകുക",
   },
-  "ta": {
-    "dark": "இருண்ட முறுமுகம்",
-    "placeholder": "ஒரு தேதி வரம்பு உள்ளிடவும்"
+  kn: {
+    dark: "ಡಾರ್ಕ್ ಮೋಡ್",
+    placeholder: "ಒಂದು ದಿನಾಂಕ ಶ್ರೇಣಿಯನ್ನು ನಮೂದಿಸಿ",
   },
-  "te": {
-    "dark": "డార్క్ మోడ్",
-    "placeholder": "ఒక తేదీ వర్గాలు నమోదు చేయండి"
+  gu: {
+    dark: "ડાર્ક મોડ",
+    placeholder: "એક તારીખ રેન્જ દાખલ કરો",
   },
-  "ml": {
-    "dark": "ഇരുണ്ട മോഡ്",
-    "placeholder": "ഒരു തീയതി ശ്രേണി നൽകുക"
+  pa: {
+    dark: "ਡਾਰਕ ਮੋਡ",
+    placeholder: "ਇੱਕ ਮਿਤੀ ਦੀ ਸੀਮਾ ਦਾਖਲ ਕਰੋ",
   },
-  "kn": {
-    "dark": "ಡಾರ್ಕ್ ಮೋಡ್",
-    "placeholder": "ಒಂದು ದಿನಾಂಕ ಶ್ರೇಣಿಯನ್ನು ನಮೂದಿಸಿ"
+  or: {
+    dark: "ଡାର୍କ ମୋଡ୍",
+    placeholder: "ଏକ ତାରିଖ ରେଞ୍ଜ ଦାଖଲ କରନ୍ତୁ",
   },
-  "gu": {
-    "dark": "ડાર્ક મોડ",
-    "placeholder": "એક તારીખ રેન્જ દાખલ કરો"
+  as: {
+    dark: "ডাৰ্ক মোড",
+    placeholder: "এটা তাৰিখৰ পৰা পৰ্যায় দিবলৈ লিখক",
   },
-  "pa": {
-    "dark": "ਡਾਰਕ ਮੋਡ",
-    "placeholder": "ਇੱਕ ਮਿਤੀ ਦੀ ਸੀਮਾ ਦਾਖਲ ਕਰੋ"
+  ne: {
+    dark: "डार्क मोड",
+    placeholder: "एक मिति रेञ्ज प्रविष्ट गर्नुहोस्",
   },
-  "or": {
-    "dark": "ଡାର୍କ ମୋଡ୍",
-    "placeholder": "ଏକ ତାରିଖ ରେଞ୍ଜ ଦାଖଲ କରନ୍ତୁ"
+  si: {
+    dark: "අඳුරු ප්‍රදාන මාදිලිය",
+    placeholder: "දින පරාසය ඇතුලත් කරන්න",
   },
-  "as": {
-    "dark": "ডাৰ্ক মোড",
-    "placeholder": "এটা তাৰিখৰ পৰা পৰ্যায় দিবলৈ লিখক"
+  my: {
+    dark: "အမှတ်တမ်းအချိန်",
+    placeholder: "ရက်စွဲအပိုင်းအခြားအချိန်များကိုထည့်ပါ",
   },
-  "ne": {
-    "dark": "डार्क मोड",
-    "placeholder": "एक मिति रेञ्ज प्रविष्ट गर्नुहोस्"
+  km: {
+    dark: "រចនាប័ទ្មច្រើនដែលខ្លី",
+    placeholder: "បញ្ចូលចន្លោះកាលបរិច្ឆេទ",
   },
-  "si": {
-    "dark": "අඳුරු ප්‍රදාන මාදිලිය",
-    "placeholder": "දින පරාසය ඇතුලත් කරන්න"
+  lo: {
+    dark: "ໂປຣໂມຊັນ",
+    placeholder: "ປ້ອນຊ່ວງເວລາທີ່",
   },
-  "my": {
-    "dark": "အမှတ်တမ်းအချိန်",
-    "placeholder": "ရက်စွဲအပိုင်းအခြားအချိန်များကိုထည့်ပါ"
+  kr: {
+    dark: "다크 모드",
+    placeholder: "날짜 범위를 입력하십시오",
   },
-  "km": {
-    "dark": "រចនាប័ទ្មច្រើនដែលខ្លី",
-    "placeholder": "បញ្ចូលចន្លោះកាលបរិច្ឆេទ"
+  tw: {
+    dark: "暗模式",
+    placeholder: "輸入日期範圍",
   },
-  "ni":{
-    "dark": "Modo oscuro",
-    "placeholder": "Ingrese un rango de fechas"
+  lt: {
+    dark: "Tamsusis režimas",
+    placeholder: "Įveskite datos intervalą",
   },
-  "lo": {
-    "dark": "ໂປຣໂມຊັນ",
-    "placeholder": "ປ້ອນຊ່ວງເວລາທີ່"
-  }
+  se: {
+    dark: "Mörkt läge",
+    placeholder: "Ange ett datumintervall",
+  },
 };

@@ -13,7 +13,11 @@ import {
   Validators,
 } from "@angular/forms";
 import { DateContract } from "../../../core/contracts/index";
-import { calendarType } from "../../../core/interfaces/DataInterface";
+import {
+  calendarType,
+  Day,
+  Year,
+} from "../../../core/interfaces/DataInterface";
 import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
 import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 import {
@@ -59,7 +63,19 @@ import {
         <div class="calendar-week-day">
           <div *ngFor="let day of daysOfWeek">{{ day }}</div>
         </div>
-        <div class="calendar-days"></div>
+        <div class="calendar-days">
+          <div
+            *ngFor="let day of days"
+            (click)="eventDayClick($event)"
+            [ngClass]="[
+              day.class,
+              day.isToday ? 'curr-date' : '',
+              day.classIsBiggerThanFirstDay
+            ]"
+          >
+            {{ day.value }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -72,7 +88,12 @@ import {
       (yearClick)="eventYearClick()"
     ></calendar-month>
 
-    <calendar-year (click)="eventYear($event)" [row]="row"></calendar-year>
+    <calendar-year
+      (click)="eventYear($event)"
+      [row]="row"
+      [years]="yearsDiv"
+      [yearClick]="handleYearClick"
+    ></calendar-year>
 
     <calendar-footer
       [messages]="messages"
@@ -111,6 +132,8 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   private months: number[] = Array.from({ length: 12 }).fill(0) as number[];
   monthNames: string[] = [];
   daysOfWeek: string[] = [];
+  days: Day[] = [];
+  yearsDiv: Year[] = [];
 
   constructor(private fb: FormBuilder) {
     this.handleCalendarNormalize = this.handleCalendarNormalize.bind(this);
@@ -244,56 +267,57 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   };
 
   protected generateCalendar(month: number, year: number) {
-    let calendar_days = this.calendar.querySelector(".calendar-days");
-    let calendar_header_year = this.calendarHeader;
-    calendar_days.innerHTML = "";
+    this.days = [];
+    const calendar_header_year = this.calendarHeader;
 
-    if ((!month && ![0, "0"].includes(month)) || typeof month == "string")
+    if ((!month && ![0, "0"].includes(month)) || typeof month === "string") {
       month = this.currentDate.getMonth();
+    }
 
-    if (!year) year = this.currentDate.getFullYear();
+    if (!year) {
+      year = this.currentDate.getFullYear();
+    }
 
     calendar_header_year.innerHTML = year.toString();
 
-    let first_day = new Date(year, month, 1);
-
-    let days_of_month = this.dayOfMonths(year);
+    const first_day = new Date(year, month, 1);
+    const days_of_month = this.dayOfMonths(year);
 
     for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
-      let day = document.createElement("div") as any;
+      // let day = document.createElement("div") as any;
       const isLessThanFirstDay = i - first_day.getDay() + 1;
       const isBiggerThanFirstDay = i >= first_day.getDay();
 
+      const currentDate = this.currentDate;
       const isCurrentDate =
-        i - first_day.getDay() + 1 == this.currentDate.getDate() &&
-        year == this.currentDate.getFullYear() &&
-        month == this.currentDate.getMonth();
+        isLessThanFirstDay === currentDate.getDate() &&
+        year === currentDate.getFullYear() &&
+        month === currentDate.getMonth();
 
       if (isBiggerThanFirstDay) {
-        day.classList.add("calendar-day-hover");
-        day.classList.add("bundle");
-        day.innerHTML = isLessThanFirstDay;
-        day.innerHTML += `<span></span>
-                          <span></span>
-                          <span></span>
-                          <span></span>`;
-
-        if (isCurrentDate) {
-          day.classList.add("curr-date");
-        }
+        // day.textContent = isLessThanFirstDay;
       }
 
-      const containClassInDay = this.handleDayClass(day);
-
-      if (containClassInDay && isLessThanFirstDay > 0) {
-        day.classList.add(containClassInDay);
+      if (isLessThanFirstDay <= 0) {
+        continue;
       }
 
-      day.addEventListener("click", (ele: Event) =>
-        this.eventDayClick(ele.target as HTMLDivElement)
-      );
+      const containClassInDay = this.handleDayClass(isLessThanFirstDay);
 
-      calendar_days.appendChild(day);
+      const dayValue = isLessThanFirstDay;
+      const dayClass =
+        containClassInDay && isLessThanFirstDay > 0 ? containClassInDay : "";
+      const isToday = isCurrentDate;
+      const classIsBiggerThanFirstDay = isBiggerThanFirstDay
+        ? "bundle calendar-day-hover"
+        : "";
+
+      this.days.push({
+        value: dayValue,
+        class: dayClass,
+        isToday,
+        classIsBiggerThanFirstDay,
+      } as Day);
     }
   }
 
@@ -303,12 +327,12 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     this.f.dateRange.setValue(null);
   }
 
-  handleDayClass(day: HTMLDivElement): string {
+  handleDayClass(day: Number): string {
     if (!day) return "";
 
     const { dateRange, monthIndex, year } = this.f;
 
-    const innerText = Number(day.innerText);
+    const innerText = Number(day);
 
     const { maxDate, minDate } = this.row;
 
@@ -403,11 +427,14 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     return "";
   }
 
-  eventDayClick(element: HTMLDivElement) {
+  eventDayClick(elemen: any) {
+    const element = elemen.target as HTMLDivElement;
+
     if (!element || !element.innerText) return;
 
-    const calendarDays = this.calendarDays;
+    const innerText = Number(element.innerText);
 
+    const calendarDays = this.calendarDays;
     if (this.f.firstDate.value && this.f.secondDate.value) {
       this.resetControls();
       calendarDays.forEach((day: HTMLDivElement) => {
@@ -436,13 +463,12 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     const date = new Date(
       this.f.year.value,
       this.f.monthIndex.value - 1,
-      element.innerText as any
+      innerText
     );
 
     switch (containFirstDate) {
       case true:
         const isBeforeSecondDate = isBefore(date, this.f.firstDate.value);
-
         if (!isBeforeSecondDate) {
           this.f.secondDate.setValue(date);
         }
@@ -496,7 +522,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
 
     let yearList = this.calendar.querySelector(".year-list");
 
-    yearList.innerHTML = "";
+    this.yearsDiv = [];
 
     if (!yearList) return;
 
@@ -509,24 +535,15 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
-      let year = document.createElement("div");
-      year.innerHTML = `<div data-year="${e}" class="year-element">${e}</div>`;
-
-      yearList.appendChild(year);
+      this.yearsDiv.push({
+        value: e,
+        class: "year-element",
+      } as Year);
     });
-
-    this.calendar
-      .querySelectorAll(".year-element")
-      .forEach((element: HTMLDivElement) => {
-        element.addEventListener("click", (ele: Event) =>
-          this.handleYearClick(ele.target as HTMLDivElement)
-        );
-      });
   }
 
   resetClassList() {
     this.calendar.querySelector(".year-list").innerHTML = "";
-    this.calendar.querySelector(".calendar-days").innerHTML = "";
   }
 
   handleYearClick(element: HTMLDivElement) {
@@ -539,8 +556,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     this.yearElement.classList.remove("show");
     this.monthElement.classList.add("show");
     this.monthElement.style.display = "flex !important";
-
-    // this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   handleMonthClick(element: number) {
