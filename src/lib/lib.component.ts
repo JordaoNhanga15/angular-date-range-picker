@@ -151,6 +151,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
 
       /deep/ .calendar-footer {
         padding: 10px !important;
+        margin-top: 10px !important;
         display: flex !important;
         justify-content: space-between !important;
         justify-items: center !important;

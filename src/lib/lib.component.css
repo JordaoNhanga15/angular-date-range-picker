@@ -112,6 +112,8 @@
 }
 
 .calendar.show {
+  min-height: 405px !important;
+  height: auto !important;
   display: block !important;
 }
 
