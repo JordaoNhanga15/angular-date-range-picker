@@ -52,7 +52,6 @@ import { FormControlInterface } from "../../../core/interfaces/FormControlInterf
       </div>
     </div>
   `,
-  styles: [],
 })
 export class CalendarMonthComponent implements OnInit {
   @Output() pagination: EventEmitter<string> = new EventEmitter<any>();

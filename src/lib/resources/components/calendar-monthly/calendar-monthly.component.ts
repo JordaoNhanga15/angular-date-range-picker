@@ -53,7 +53,7 @@ import { isInvalid } from "../../../shared/utils/detectDateFormats";
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/calendar-month.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/calendar-month.css");
     `,
   ],
 })

@@ -39,7 +39,6 @@ import { calendarType, Year } from "../../../core/interfaces/DataInterface";
       </div>
     </div>
   `,
-  styles: [],
 })
 export class CalendarYearComponent implements OnInit {
   @Output() click: EventEmitter<string> = new EventEmitter<any>();

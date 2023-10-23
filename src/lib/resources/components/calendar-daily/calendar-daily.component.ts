@@ -105,7 +105,7 @@ import {
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/style.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/style.css");
 
       /deep/ .year-container {
         display: none !important;

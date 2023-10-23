@@ -34,7 +34,7 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/calendar.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/calendar.css");
     `,
   ],
 })

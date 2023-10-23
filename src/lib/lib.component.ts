@@ -174,6 +174,18 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         background: transparent !important;
       }
 
+      /deep/ .year-list div{
+        font-size: 14px !important;
+      }
+
+      /deep/ .year-list .year-element{
+        font-size: 14px !important;
+      }
+
+      /deep/ .month-list .month-element{
+        font-size: 14px !important;
+      }
+
       /deep/ .calendar-footer .trash-link-button:hover {
         opacity: 1 !important;
       }
