@@ -82,7 +82,6 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
       }
 
       @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css');
-      @import url('https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/bootstrap.css');
 
       /deep/ .calendar-lib {
         max-height: 100% !important;

@@ -14,7 +14,7 @@ import {
 } from "@angular/forms";
 import { DateContract } from "../../../core/contracts/index";
 import { DateService } from "../../../core/services/date.service";
-import { calendarType } from "../../../core/interfaces/DataInterface";
+import { calendarType, Year } from "../../../core/interfaces/DataInterface";
 import { FormControlInterface } from "../../../core/interfaces/FormControlInterface";
 import {
   isBefore,
@@ -36,7 +36,12 @@ import { isInvalid } from "../../../shared/utils/detectDateFormats";
       (yearClick)="eventYearClick()"
     ></calendar-month>
 
-    <calendar-year (click)="eventYear($event)" [row]="row"></calendar-year>
+    <calendar-year
+      (click)="eventYear($event)"
+      [row]="row"
+      [years]="yearsDiv"
+      [yearClick]="handleYearClick"
+    ></calendar-year>
 
     <calendar-footer
       [messages]="messages"
@@ -64,6 +69,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   dateContract: DateContract;
   private months: number[] = Array.from({ length: 12 }).fill(0) as number[];
   monthNames: string[] = [];
+  yearsDiv: Year[] = [];
 
   constructor(private fb: FormBuilder, private date: DateService) {
     this.dateContract = new DateContract(this.row);
@@ -283,22 +289,11 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 
     yearsAbove.forEach((e, index) => {
-      const value = String(e);
-      let year = document.createElement("div");
-      year.classList.add("year-element");
-      year.setAttribute("data-year", value);
-      year.textContent = value;
-
-      yearList.appendChild(year);
+      this.yearsDiv.push({
+        value: e,
+        class: `year-element`,
+      } as Year);
     });
-
-    this.calendar
-      .querySelectorAll(".year-element")
-      .forEach((element: HTMLDivElement) => {
-        element.addEventListener("click", (ele: Event) =>
-          this.handleYearClick(ele.target as HTMLDivElement)
-        );
-      });
   }
 
   handleYearClick(element: HTMLDivElement) {
@@ -310,8 +305,6 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
 
     this.yearElement.classList.remove("show");
     this.monthElement.classList.add("show");
-
-    // this.calendar.querySelector(".year-list").innerHTML = "";
   }
 
   private resetControls() {

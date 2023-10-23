@@ -229,8 +229,6 @@ export class CalendarYearlyComponent implements OnInit {
 
     let yearsAbove = this.years.slice(Number(y), Number(y) + 16);
 
-    // yearList.innerHTML = "";
-
     this.calendar.querySelector("#year-array").innerHTML =
       yearsAbove[0] + " - " + yearsAbove[yearsAbove.length - 1];
 

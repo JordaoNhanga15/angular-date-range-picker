@@ -25,7 +25,7 @@ export const manifest = {
   },
   pt: {
     dark: "Modo escuro",
-    placeholder: "Insira um intervalo de datas",
+    placeholder: "Insira um intervalo de data",
   },
   ru: {
     dark: "Темный режим",

@@ -56,7 +56,6 @@ export class CalendarYearComponent implements OnInit {
 
   handleYearClick($event: any) {
     const year = $event.target;
-    console.log(year);
     this.yearClick(year);
   }
 

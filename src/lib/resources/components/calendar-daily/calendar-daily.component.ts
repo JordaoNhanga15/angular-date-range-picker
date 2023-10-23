@@ -284,7 +284,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     const days_of_month = this.dayOfMonths(year);
 
     for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
-      // let day = document.createElement("div") as any;
       const isLessThanFirstDay = i - first_day.getDay() + 1;
       const isBiggerThanFirstDay = i >= first_day.getDay();
 
@@ -293,10 +292,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
         isLessThanFirstDay === currentDate.getDate() &&
         year === currentDate.getFullYear() &&
         month === currentDate.getMonth();
-
-      if (isBiggerThanFirstDay) {
-        // day.textContent = isLessThanFirstDay;
-      }
 
       if (isLessThanFirstDay <= 0) {
         continue;

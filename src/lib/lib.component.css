@@ -1,5 +1,5 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css');
-@import url('https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/bootstrap.css');
+/* @import url('https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/bootstrap.css'); */
 
 .twitter::before {
   content: '\f099';
@@ -102,13 +102,11 @@
   height: max-content !important;
   width: max-content !important;
   background-color: var(--bg-main) !important;
-  /* position: absolute !important; */
   z-index: 999 !important;
   overflow: hidden !important;
   display: none !important;
   width: 100% !important;
   max-width: -moz-available !important;
-  /* transform: scale(1.25); */
 }
 
 .calendar.show {
@@ -120,3 +118,10 @@
 .light .calendar {
   box-shadow: var(--shadow) !important;
 }
+
+
+ @font-face {
+   font-family: 'Glyphicons Halflings';
+   /* src: url(../fonts/glyphicons-halflings-regular.eot); */
+   /* src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(../fonts/glyphicons-halflings-regular.woff) format('woff'), url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg'); */
+ }
