@@ -146,6 +146,10 @@ Contributions are welcome! Feel free to open issues or pull requests on the [Git
 - GitHub: [@JordaoNhanga15](https://github.com/JordaoNhanga15)
 - LinkedIn: [Jordão de Oliveira](https://www.linkedin.com/in/jordao-de-oliveira/)
 
+A luz sempre guiará nossos caminhos através das sombras. Paz Profunda!!!
+
+## T.'.F.'.A.'.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
