@@ -2,9 +2,7 @@ import {
   Component,
   DoCheck,
   Input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ElementRef,
   HostListener,
   ViewChild,
@@ -26,6 +24,13 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
           readonly
           [value]="control.value"
         />
+        <span
+          class="fa fa-xmark"
+          aria-label="close"
+          role="button"
+          (click)="clearCalendar()"
+          *ngIf="control.value"
+        ></span>
         <i class="fa fa-calendar"></i>
       </div>
 
@@ -36,6 +41,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
               [row]="props"
               [format]="format"
               [messages]="translate"
+              [clear-calendar]="toClearCalendar"
               (dateRange)="onDateRangeChange($event)"
             ></lib-calendar-daily>
           </ng-container>
@@ -44,6 +50,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
               [row]="props"
               [format]="format"
               [messages]="translate"
+              [clear-calendar]="toClearCalendar"
               (dateRange)="onDateRangeChange($event)"
             ></lib-calendar-monthly>
           </ng-container>
@@ -52,6 +59,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
               [row]="props"
               [format]="format"
               [messages]="translate"
+              [clear-calendar]="toClearCalendar"
               (dateRange)="onDateRangeChange($event)"
             ></lib-calendar-yearly>
           </ng-container>
@@ -59,9 +67,12 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
       </div>
     </aside>
   `,
-  styleUrls: ["./lib.component.css"],
   styles: [
     `
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/lib.css");
+
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css");
+
       /deep/ :root {
         --dark-body: #4d4c5a !important;
         --dark-main: #141529 !important;
@@ -81,13 +92,11 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         --theme-primary-accent: #cbe8ff !important;
       }
 
-      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css');
-
       /deep/ .calendar-lib {
         max-height: 100% !important;
       }
 
-      /deep/ .calendar{
+      /deep/ .calendar {
         position: absolute;
         z-index: 150000 !important;
         box-sizing: border-box;
@@ -106,6 +115,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         --c-theme-primary: #008ffd !important;
         --c-theme-primary-accent: #cbe8ff !important;
         position: relative !important;
+        width: 296px !important;
       }
 
       /deep/ .light {
@@ -120,6 +130,7 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         --c-theme-primary: #008ffd !important;
         --c-theme-primary-accent: #cbe8ff !important;
         position: relative !important;
+        width: 296px !important;
       }
 
       /deep/ .selected {
@@ -139,133 +150,16 @@ import { MessagesInterface } from "./core/interfaces/MessagesInterface";
         background-color: var(--background-disabled) !important;
         color: #000 !important;
       }
-
-      /deep/ .calendar-complete{
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        height: 100% !important;
-        width: 100% !important;
-        align-items: center !important;
-      }
-
-      /deep/ .calendar-footer {
-        padding: 10px !important;
-        margin-top: 10px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        justify-items: center !important;
-        align-content: center !important;
-        align-items: center !important;
-      }
-
-      /deep/ .calendar-footer .trash-link-button {
-        flex-shrink: 0 !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: flex !important;
-        font-size: 20px !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: #f34969; !important;
-        border: 1px solid #f34969 !important;
-        opacity: 0.9 !important;
-        border-radius: 50% !important;
-        cursor: pointer !important;
-        background: transparent !important;
-      }
-
-      /deep/ .year-list div{
-        font-size: 14px !important;
-      }
-
-      /deep/ .year-list .year-element{
-        font-size: 14px !important;
-      }
-
-      /deep/ .month-list .month-element{
-        font-size: 14px !important;
-      }
-
-      /deep/ .calendar-footer .trash-link-button:hover {
-        opacity: 1 !important;
-      }
-
-      /deep/ .w-100{
-        width: 100% !important;
-      }
-
-      /deep/ .d-flex{
-        display: flex !important;
-      }
-
-      /deep/ .align-items-center{
-        align-items: center !important;
-      }
-
-      /deep/ .justify-content-between{
-        justify-content: space-between !important;
-      }
-
-      /deep/ .event-hover{
-        transition: all 0.2s ease-in-out !important;
-        background-color: var(--color-hover) !important;
-      }
-
-      /deep/ .font-weight-600{
-        font-weight: 600 !important;
-      }
-
-      /deep/ .text-color{
-        color: var(--color-txt) !important;
-      }
-
-      /deep/ .font-size-25{
-        font-size: 25px !important;
-      }
-
-      /deep/ .toggle {
-        display: flex !important;
-        align-items: center !important;
-      }
-
-      /deep/ .toggle span {
-        margin-right: 10px !important;
-        color: var(--color-txt) !important;
-      }
-
-      /deep/ .dark-mode-switch {
-        position: relative !important;
-        width: 48px !important;
-        height: 25px !important;
-        border-radius: 14px !important;
-        background-color: var(--bg-second) !important;
-        cursor: pointer !important;
-      }
-
-      /deep/ .dark-mode-switch-ident {
-        width: 21px !important;
-        height: 21px !important;
-        border-radius: 50% !important;
-        background-color: var(--bg-main) !important;
-        position: absolute !important;
-        top: 2px !important;
-        left: 2px !important;
-        transition: left 0.2s ease-in-out !important;
-      }
-
-      /deep/ .dark .dark-mode-switch .dark-mode-switch-ident {
-        top: 2px !important;
-        left: calc(2px + 50%) !important;
-      }
     `,
   ],
 })
-export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
+export class DateRangeComponent implements OnInit, DoCheck {
   @Input() props: calendarType;
   @Input() format: string;
   @Input() control: FormControl = new FormControl();
   translate: MessagesInterface;
   manifest: any;
+  toClearCalendar: boolean = false;
   @ViewChild("dateInputDiv") dateInputDiv: ElementRef;
   constructor(private libService: LibService) {
     this.manifest = this.libService.loadManifest();
@@ -283,6 +177,14 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     if (!this.dateInputDiv.nativeElement.contains(event.target as Node)) {
       this.eventCalendar(true);
     }
+  }
+
+  clearCalendar() {
+    this.control.setValue(null);
+    this.toClearCalendar = true;
+    setTimeout(() => {
+      this.toClearCalendar = false;
+    }, 100);
   }
 
   ngOnInit(): void {
@@ -334,8 +236,6 @@ export class DateRangeComponent implements OnInit, OnChanges, DoCheck {
     const cssVariable = `--${key}`;
     document.documentElement.style.setProperty(cssVariable, color);
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   eventCalendar(toClose?: boolean) {
     const calendarLib = document.querySelector("#calendar-lib") as HTMLElement;

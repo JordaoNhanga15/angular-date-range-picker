@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  DoCheck,
+} from "@angular/core";
 import {
   FormControl,
   FormGroup,
@@ -34,15 +41,31 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/calendar.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/year.css");
+
+      /deep/ .year-pickers {
+        transition: all 0.2s ease-in-out !important;
+        background-color: var(--color-hover) !important;
+      }
+
+      /deep/ .year-list {
+        gap: 10px 5px !important;
+      }
+
+      /deep/ .month-containers {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 15px !important;
+      }
     `,
   ],
 })
-export class CalendarYearlyComponent implements OnInit {
+export class CalendarYearlyComponent implements OnInit, DoCheck {
   formHeader: FormGroup;
   @Input() row: calendarType;
   @Input() format: string;
   @Input() messages: MessagesInterface;
+  @Input("clear-calendar") clearCalendar: boolean;
   @Input() formControl: FormControl;
   @Output() dateRange: EventEmitter<{
     dateRange: Date;
@@ -60,6 +83,13 @@ export class CalendarYearlyComponent implements OnInit {
     this.buildForm();
     this.buildYearList();
     this.dateContract = new DateContract(this.row);
+  }
+
+  ngDoCheck(): void {
+    if (this.clearCalendar) {
+      this.clearForm();
+      this.clearCalendar = false;
+    }
   }
 
   protected buildForm(): void {
@@ -128,7 +158,7 @@ export class CalendarYearlyComponent implements OnInit {
     );
 
     this.f.dateRange.setValue(
-      `${firstDate} ${secondDate ? ` - ${secondDate}` : ""}`
+      `${firstDate} ${secondDate ? `- ${secondDate}` : ""}`
     );
 
     return this.dateRange.emit(this.f.dateRange.value);

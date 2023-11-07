@@ -37,25 +37,12 @@ import {
         <span
           class="month-picker"
           id="month-picker"
+          style="font-size: 20px !important;"
           (click)="eventMonthClick()"
           >{{ month }}</span
         >
         <div class="year-picker">
-          <span
-            class="year-change"
-            id="prev-year"
-            (click)="handleCalendarBuildForm('prevYear')"
-          >
-            <div><</div>
-          </span>
           <span id="year" class="year-value">{{ f.year.value }}</span>
-          <span
-            class="year-change"
-            id="next-year"
-            (click)="handleCalendarBuildForm('nextYear')"
-          >
-            <div>></div>
-          </span>
         </div>
       </div>
 
@@ -105,16 +92,37 @@ import {
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/style.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/day.css");
 
       /deep/ .year-container {
         display: none !important;
+      }
+
+      /deep/ .month-container.show {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 15px !important;
       }
 
       @media screen and (max-width: 420px) {
         /deep/ .year-picker {
           display: none !important;
         }
+      }
+
+      /deep/ .year-pickers {
+        transition: all 0.2s ease-in-out !important;
+        background-color: var(--color-hover) !important;
+      }
+
+      /deep/ .year-list {
+        gap: 10px 5px !important;
+        padding: 5px !important;
+      }
+
+      /deep/ .month-picker {
+        cursor: pointer !important;
+        background-color: var(--color-hover) !important;
       }
     `,
   ],
@@ -124,6 +132,7 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   @Input() row: calendarType;
   @Input() format: string;
   @Input() messages: MessagesInterface;
+  @Input("clear-calendar") clearCalendar: boolean;
   @Input() formControl: FormControl;
   @Output() dateRange: EventEmitter<{
     dateRange: Date;
@@ -537,10 +546,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
     });
   }
 
-  resetClassList() {
-    this.calendar.querySelector(".year-list").innerHTML = "";
-  }
-
   handleYearClick(element: HTMLDivElement) {
     if (!element) return;
 
@@ -642,6 +647,10 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
+    if (this.clearCalendar) {
+      this.clearForm();
+      this.clearCalendar = false;
+    }
     this.customMonths();
     this.customDaysOfWeek();
   }
@@ -660,7 +669,6 @@ export class CalendarDailyComponent implements OnInit, DoCheck {
 
   clearForm() {
     this.resetControls();
-    this.resetClassList();
     this.generateCalendar(
       this.currentDate.getMonth(),
       this.currentDate.getFullYear()

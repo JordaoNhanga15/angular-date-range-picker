@@ -4,17 +4,7 @@ import { MessagesInterface } from "../../../core/interfaces/MessagesInterface";
 @Component({
   selector: "calendar-footer",
   template: `
-    <div
-      class="calendar-footer"
-      [ngClass]="{ 'justify-content-end': !dateRangeValue }"
-    >
-      <button
-        (click)="handleClick()"
-        class="trash-link-button"
-        *ngIf="dateRangeValue"
-      >
-        <span class="fa fa-trash"></span>
-      </button>
+    <div class="calendar-footer justify-content-end">
       <div class="toggle" (click)="handleDarkMode()" *ngIf="isDarkMode">
         <span>{{ messages.dark }}</span>
         <div class="dark-mode-switch">

@@ -53,7 +53,22 @@ import { isInvalid } from "../../../shared/utils/detectDateFormats";
   `,
   styles: [
     `
-      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@main/calendar-month.css");
+      @import url("https://cdn.jsdelivr.net/gh/JordaoNhanga15/CDN-for-Assets@master/month.css");
+
+      /deep/ .year-pickers {
+        transition: all 0.2s ease-in-out !important;
+        background-color: var(--color-hover) !important;
+      }
+
+      /deep/ .year-list {
+        gap: 10px 5px !important;
+      }
+
+      /deep/ .month-containers {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 15px !important;
+      }
     `,
   ],
 })
@@ -62,6 +77,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   @Input() row: calendarType;
   @Input() format: string;
   @Input() messages: MessagesInterface;
+  @Input("clear-calendar") clearCalendar: boolean;
   @Input() formControl: FormControl;
   @Output() dateRange: EventEmitter<{
     dateRange: Date;
@@ -84,6 +100,10 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
+    if (this.clearCalendar) {
+      this.clearForm();
+      this.clearCalendar = false;
+    }
     this.customMonths();
   }
 
@@ -274,11 +294,7 @@ export class CalendarMonthlyComponent implements OnInit, DoCheck {
   generateCalendarYearly() {
     const { year } = this.f;
 
-    let yearList = this.calendar.querySelector(".year-list");
-
-    yearList.innerHTML = "";
-
-    if (!yearList) return;
+    this.yearsDiv = [];
 
     let yearsAbove = this.years.slice(
       Math.max(0, year.value - 15),
